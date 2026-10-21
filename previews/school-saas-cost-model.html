@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>School SaaS — India pilot economics</title>
+<style>
+:root{color-scheme:light dark;--page:light-dark(#fafafa,#181818);--ink:light-dark(#242424,#e8e8e8);--muted:light-dark(#606060,#b6b6b6);--line:light-dark(#d6d6d6,#454545);--surface:light-dark(#f0f0f0,#242424);--accent:light-dark(#245ca6,#9cbdea)}
+*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font:15px/1.6 system-ui,sans-serif}main{max-width:1050px;margin:auto;padding:32px 24px}h1{font-size:24px;line-height:1.3;font-weight:600;margin:12px 0}h2{font-size:19px;font-weight:600;margin:28px 0 12px}h3{font-size:16px;font-weight:600}p{max-width:850px;margin:8px 0 18px}.eyebrow,small{color:var(--muted);font-size:12px}.intro{border-bottom:1px solid var(--line);padding-bottom:20px}.fields{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:18px}label{display:flex;flex-direction:column;gap:5px;font-size:13px}input,select{color:var(--ink);background:var(--page);border:1px solid var(--line);border-radius:4px;padding:9px;font:inherit;width:100%}input:focus,select:focus{outline:2px solid var(--accent);outline-offset:2px}.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin:25px 0;padding:18px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.value{display:block;font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}.stat-label{color:var(--muted);font-size:13px}.row{display:flex;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);padding:10px 0}.row output{font-variant-numeric:tabular-nums;white-space:nowrap}.note{background:var(--surface);padding:14px 18px;margin:20px 0}a{color:var(--accent)}.stack{padding:18px;background:var(--surface)}.stack div{padding:8px 0}.stack strong{font-weight:600}footer{margin-top:30px;color:var(--muted);font-size:13px}button{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:8px 12px;cursor:pointer}@media(max-width:500px){main{padding:22px 16px}.row{flex-wrap:wrap}}
+</style></head><body><main>
+<header class="intro"><div class="eyebrow">INDIA · REVISED 14 OCTOBER 2026 · ASSUMPTIONS YOU CAN CHANGE</div><h1>School SaaS: integrated operations and parent experience</h1><p>Current custom stack: <strong>React + Vite, Node.js + NestJS/Fastify, and PostgreSQL</strong>, with separate Node workers and private S3 media. Scope includes full procurement/accounting, inventory/library, and event-wise parent downloads.</p><p><a href="../docs/architecture/integrated-school-backend-blueprint.md">Read the revised backend and integration blueprint</a> · <a href="../docs/research/parent-and-child-feature-research.md">Read the parent and child feature research</a></p><small>The calculator defaults remain the original lightweight core scenario. For the expanded product, enter your own support, infrastructure and subscription provisions; include storage, requests, downloads and applicable infrastructure taxes in those provisions.</small></header>
+<h2>Monthly operating model</h2>
+<form id="costs" onsubmit="return false"><div class="fields">
+<label>Paying schools<input id="schools" type="number" min="0" max="10000" step="1" value="3"></label>
+<label>Subscription / school (₹)<input id="price" type="number" min="0" max="1000000" value="2499"></label>
+<label>Shared infra provision (₹)<input id="fixed" type="number" min="0" max="1000000" value="1500"></label>
+<label>Support / school (₹)<input id="support" type="number" min="0" max="1000000" value="500"></label>
+<label>AI usage / school (₹)<input id="ai" type="number" min="0" max="1000000" value="100"></label>
+<label>Effective payment fee (%)<input id="fee" type="number" min="0" max="100" step="0.0001" value="2.36"></label>
+</div>
+<div class="stats" aria-live="polite"><div><output class="value" id="revenue"></output><span class="stat-label">Monthly recurring revenue</span></div><div><output class="value" id="baseline"></output><span class="stat-label">Modelled costs before messages</span></div><div><output class="value" id="surplus"></output><span class="stat-label">Surplus before omitted costs</span></div></div>
+<div class="row"><span>Payment processing</span><output id="payment-cost"></output></div>
+<div class="row"><span>Support and AI provisions</span><output id="variable"></output></div>
+<div class="row"><span>Break-even school count for entered provisions</span><output id="break-even"></output></div>
+<p class="note">This is an operating scenario, not a profit forecast. It excludes founder engineering time, acquisition, accounting, refunds, discounts and other overhead. Subscription price is before applicable tax. Include infrastructure tax and FX costs in its provision. Support is an editable monetary allowance.</p>
+<h2>Message delivery can change the result</h2>
+<div class="fields">
+<label>Students per school<input id="students" type="number" min="0" max="1000000" step="1" value="500"></label>
+<label>Messages / student / month<input id="messages" type="number" min="0" max="1000000" step="1" value="22"></label>
+<label>Assumed cost / delivery (₹)<input id="rate" type="number" min="0" max="100" step="0.01" value="0.15"></label>
+</div>
+<div style="margin-top:20px" aria-live="polite"><div class="row"><span>Total assumed monthly deliveries</span><output id="deliveries"></output></div><div class="row"><span>Delivery costs across schools</span><output id="delivery-cost"></output></div><div class="row"><span>Surplus if delivery is billed separately at cost</span><output id="passed"></output></div><div class="row"><span>Surplus if your subscription absorbs delivery</span><output id="absorbed"></output></div></div>
+<p><small>₹0.15 is illustrative, not a verified current WhatsApp rate. Replace it with a quote for the actual message category, destination, provider extras and tax. The model assumes every entered delivery is chargeable at the entered blended rate.</small></p>
+</form>
+<p>Default fee: 2% gateway charge plus 18% GST on that charge = 2.36%. An illustrative recurring charge of 2% + 0.99%, with that GST, becomes 3.5282%. Confirm your method-specific agreement. <a href="https://razorpay.com/blog/razorpay-payment-gateway-pricing-explained/">Official fee explanation</a>.</p>
+<h2>Deploy simply, preserve the codebase</h2>
+<div class="stack"><div><strong>React PWA</strong> — staff, children and verified parents</div><div>↓ HTTPS → stateless Node / NestJS API</div><div><strong>Modules in one backend</strong> — school records, procurement, inventory, library, accounting, events, subscriptions and audit</div><div>↓ PostgreSQL + outbox / durable jobs → separate Node worker processes</div><div><strong>Private S3</strong> — authorised direct uploads, thumbnails and versioned event ZIP packages</div><div><strong>Provider adapters</strong> — AI, messaging and payments</div><div><strong>Recovery</strong> — encrypted offsite database backups and tested restores</div></div>
+<h2>Inventory and library integration</h2><p>Share vendors, purchase approvals, receipts, locations and audit records. Track consumable quantities, individual equipment units, and library editions/copies with their own rules. A loan changes custody and availability; it does not automatically reduce school ownership or accounting value. Match supplier invoices and payments to accepted receipts.</p>
+<h2>Event packages for parents</h2><p>Approved event photos → bounded ZIP worker → private S3 package → parent-specific application link in a message → verified guardian/audience/expiry check → short-lived download access. Support configurable expiry and revocation; downloaded files cannot be recalled. Reuse a package for an identical approved audience and meter download volume.</p>
+<h2>Features to validate</h2><p>Build parent action lists, accessible delivery and event packages first. Test absence catch-up packs tied to actual classwork and lesson planning that checks available books/equipment before creating approved procurement requests. Reading and portfolio features already exist in competitors; differentiate through the complete workflow and measured usefulness.</p>
+<h2>Budget before revenue</h2><p><a href="https://aws.amazon.com/lightsail/pricing/">Lightsail Linux 2 GB is $12/month; 4 GB is $24/month</a>. At the planning assumption of ₹90/USD, those are ₹1,080 and ₹2,160 before taxes/FX and extras. Budget roughly ₹2,000–₹4,000 for a controlled Node pilot, before substantial gallery downloads and messaging. S3 costs include requests and outbound delivery as well as stored bytes. No capacity has been measured.</p>
+<h2>Launch sequence</h2><p>Discovery and accountant review → foundation/imports → inventory/library → procurement and balanced financial posting → gallery packages and parent actions → controlled month-end and performance verification → AI enhancements. A provisional 16–24-week staged plan replaces the original core-only 10–12-week estimate; it is not a delivery guarantee.</p>
+<footer>Research/design artifacts only; no schools contacted and no application deployed. The revised blueprint includes competitor sources, transaction controls, database design, gallery permissions and scaling triggers. Rendering has not been browser-verified; calculator logic has been checked.</footer>
+</main><script>
+(() => {
+  const root = document.getElementById('costs');
+  const get = (id, max=1000000) => Math.min(max, Math.max(0, Number(document.getElementById(id).value) || 0));
+  const put = (id, value) => { document.getElementById(id).textContent = value; };
+  const money = n => '₹' + Math.round(n).toLocaleString('en-IN');
+  function update() {
+    const n = Math.floor(get('schools',10000));
+    const price = get('price'); const fixed = get('fixed');
+    const support = get('support'); const ai = get('ai'); const fraction = get('fee',100)/100;
+    const revenue = n*price; const payment = revenue*fraction;
+    const variable = n*(support+ai); const baseline = fixed+payment+variable;
+    const surplus = revenue-baseline; const contribution = price*(1-fraction)-support-ai;
+    const deliveries = n*Math.floor(get('students'))*Math.floor(get('messages'));
+    const messaging = deliveries*get('rate',100);
+    put('revenue',money(revenue)); put('baseline',money(baseline)); put('surplus',money(surplus));
+    put('payment-cost',money(payment)); put('variable',money(variable));
+    put('break-even',fixed === 0 && contribution >= 0 ? '0' : contribution > 0 ? String(Math.ceil(fixed/contribution)) : 'No finite break-even');
+    put('deliveries',deliveries.toLocaleString('en-IN')); put('delivery-cost',money(messaging));
+    put('passed',money(surplus)); put('absorbed',money(surplus-messaging));
+  }
+  root.addEventListener('input',update); update();
+})();
+</script></body></html>

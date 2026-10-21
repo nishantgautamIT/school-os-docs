@@ -1,0 +1,33 @@
+const fs = require('fs');
+const vm = require('vm');
+const assert = require('assert');
+const path = require('path');
+const file = path.join(__dirname, '../previews/school-saas-cost-model.html');
+const html = fs.readFileSync(file, 'utf8');
+const elements = {};
+for (const match of html.matchAll(/<[^>]+\bid="([^"]+)"[^>]*>/g)) {
+  assert(!elements[match[1]], 'duplicate HTML id');
+  elements[match[1]] = { value: /\bvalue="([^"]*)"/.exec(match[0])?.[1] || '', textContent: '', addEventListener(type, fn) { this.listener = fn; } };
+}
+const document = { getElementById(id) { assert(elements[id], `missing ${id}`); return elements[id]; } };
+const script = /<script>([\s\S]*?)<\/script>/.exec(html)[1];
+vm.runInNewContext(script, {document});
+const out = id => elements[id].textContent;
+assert.equal(out('revenue'), '₹7,497');
+assert.equal(out('baseline'), '₹3,477');
+assert.equal(out('surplus'), '₹4,020');
+assert.equal(out('delivery-cost'), '₹4,950');
+assert.equal(out('absorbed'), '₹-930');
+elements.schools.value = '1'; elements.costs.listener();
+assert.equal(out('surplus'), '₹340');
+elements.schools.value = '10'; elements.fixed.value = '2500'; elements.costs.listener();
+assert.equal(out('surplus'), '₹15,900');
+elements.schools.value = '0'; elements.costs.listener();
+assert.equal(out('revenue'), '₹0');
+assert.equal(out('surplus'), '₹-2,500');
+assert.equal(out('delivery-cost'), '₹0');
+elements.support.value = '3000'; elements.costs.listener();
+assert.equal(out('break-even'), 'No finite break-even');
+elements.schools.value = '-3'; elements.costs.listener();
+assert.equal(out('revenue'), '₹0');
+console.log('Cost calculations, input updates, missing-element checks and zero/negative contribution cases passed. Browser layout was not tested.');

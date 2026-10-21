@@ -1,1 +1,64 @@
-# school-os-docs
+# SchoolOS documentation
+
+Product research, architecture and interactive prototypes for an India-focused, multi-tenant school management SaaS with a public website for each school.
+
+**Status:** planning and browser-local prototypes. The production React/Node application, database, authentication, billing, messaging and school-site hosting are not implemented. Demo controls do not create real users, send messages, take payments or publish websites.
+
+## Start here
+
+- [Complete project context and scope](PROJECT-CONTEXT.md)
+- [Current backend and integration blueprint](docs/architecture/integrated-school-backend-blueprint.md)
+- [Interactive architecture and UI review](previews/school-architecture-review.html) — 40 sections, flows, sample screens and proposed records/APIs. Download/open the HTML locally; GitHub displays its source.
+- [Parent and child feature research](docs/research/parent-and-child-feature-research.md)
+- [Original market research](docs/research/school-saas-research-and-blueprint.md) — historical core-only assumptions are superseded where the current scope differs.
+- [Editable cost model](previews/school-saas-cost-model.html) — planning scenarios, not live provider quotes; defaults still reflect the earlier narrow core offering.
+
+## Product boundaries
+
+- Platform administration: school customers, contracts, subscription and maintenance schedules, invoices, renewals and initial school-admin setup.
+- Private school portal: tenant/role isolation, student profiles and filters, attendance, homework, exams, paper review/audit, report cards, parents, inventory, library, procurement and accounting.
+- Public school website: school creation seeds a draft; school admin completes details, previews and publishes. Home, About, Academics, Events and Contact/enquiry pages use the school's published branding and content. Private galleries and student records do not become public.
+- AI roadmap: teacher-reviewed syllabus planning, communication, catch-up and resource-aware learning, with per-school spending limits.
+
+Selected review sections: **04** students/profiles, **15** bulk messages/history, **23** bilingual parent dashboard, **38** role-specific UI review, **39** onboarding/billing/login setup, **40** public school website/editor/enquiry inbox.
+
+## Repository layout
+
+- `docs/research/`: desk research and feature opportunities, with cited sources and limitations.
+- `docs/architecture/`: current system design and release requirements.
+- `previews/`: self-contained browser HTML deliverables.
+- `assets/previews/`: illustrative screenshots; older screenshots preserve earlier review states.
+- `source/architecture-review/`: Python generator, HTML template and embedded public-website JS/CSS.
+- `source/canvas/`: optional original Canvas source; requires a compatible `cursor/canvas` host.
+- `scripts/`: artifact validation scripts.
+
+The public-site campus/event pictures in the prototype are illustrations, not images of an actual school. Sample student names, contacts, amounts and dates are fictional examples. The repository contains no production credentials or school data.
+
+## Open and rebuild
+
+The two files in `previews/` open directly in a browser without dependencies. An optional local HTTP preview is:
+
+```sh
+python3 -m http.server 8877 --bind 127.0.0.1 --directory previews
+```
+
+Open `http://127.0.0.1:8877/school-architecture-review.html`. Stop the server when finished.
+
+Rebuild the review using Python 3; no Python packages are required:
+
+```sh
+python3 source/architecture-review/build.py --output previews/school-architecture-review.html
+```
+
+Validate using Node.js; no npm packages are required:
+
+```sh
+node scripts/check-review.cjs
+node scripts/check-cost-model.cjs
+```
+
+## Limits and next work
+
+Research was performed from official sources; no vendor demos, private quotes or school-user study were conducted. Differentiation, prices, infrastructure provisions and delivery timelines are hypotheses or planning assumptions. Recheck time-sensitive provider pricing, terms and child-facing AI eligibility before launch.
+
+The chosen stack is React/Vite/TypeScript, Node/NestJS/Fastify, PostgreSQL, pg-boss workers and private S3 storage. Start as a modular monolith. Operational release evidence must include tenant/guardian/teacher isolation, token expiry/reuse, concurrent stock/library operations, payment idempotency, accounting integrity, public/private media separation and a successful restore drill.
