@@ -2,9 +2,13 @@
 
 Product research, architecture and interactive prototypes for an India-focused, multi-tenant school management SaaS with a public website for each school.
 
-**Status:** planning and browser-local prototypes. The production React/Node application, database, authentication, billing, messaging and school-site hosting are not implemented. Demo controls do not create real users, send messages, take payments or publish websites.
+**Status:** documentation and browser-local prototypes. The executable backend is maintained separately in [campus-core-api](https://github.com/nishantgautamIT/campus-core-api), a private repository with PostgreSQL migrations, tenant isolation and API health checks. Authentication endpoints and school workflows remain planned. Prototype controls do not create real users, send messages, take payments or publish websites.
 
 ## Start here
+
+- [Implementation plan and ordered acceptance criteria](previews/school-implementation-plan.html) — new design deliverables remain HTML.
+- [Executable backend service](https://github.com/nishantgautamIT/campus-core-api) — Node 24, PostgreSQL and integration checks.
+- [Full database design catalogue](previews/school-database-design.html) — broader roadmap, not an executable release migration.
 
 - [Complete project context and scope](PROJECT-CONTEXT.md)
 - [Current backend and integration blueprint](docs/architecture/integrated-school-backend-blueprint.md)
@@ -31,12 +35,13 @@ Selected review sections: **04** students/profiles, **15** bulk messages/history
 - `source/architecture-review/`: Python generator, HTML template and embedded public-website JS/CSS.
 - `source/canvas/`: optional original Canvas source; requires a compatible `cursor/canvas` host.
 - `scripts/`: artifact validation scripts.
+Backend source, executable migrations and CI live in the separate [campus-core-api repository](https://github.com/nishantgautamIT/campus-core-api). This repository keeps design/research HTML and prototype sources.
 
 The public-site campus/event pictures in the prototype are illustrations, not images of an actual school. Sample student names, contacts, amounts and dates are fictional examples. The repository contains no production credentials or school data.
 
 ## Open and rebuild
 
-The two files in `previews/` open directly in a browser without dependencies. An optional local HTTP preview is:
+The self-contained files in `previews/` open directly in a browser without dependencies. An optional local HTTP preview is:
 
 ```sh
 python3 -m http.server 8877 --bind 127.0.0.1 --directory previews
