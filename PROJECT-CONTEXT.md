@@ -1,12 +1,12 @@
 # SchoolOS — project context and handoff
 
-Updated 21 October 2026.
+Updated 24 October 2026.
 
 ## Purpose and current state
 
 Build an India-only subscription school platform that connects administration, teaching, families, physical resources and school finance. Each school also gets a public advertising website on the same platform. Start with inexpensive shared infrastructure; increase spending after paid usage and measured operational needs. The developer is experienced. Independent private schools are a proposed starting segment, not a confirmed customer segment.
 
-This is a documentation and prototype repository. No production Node/React application, database, credential store, messaging service or hosting deployment has been built. The HTML contains local illustrative records and interactions.
+The initial backend foundation is maintained in the separate private repository [campus-core-api](https://github.com/nishantgautamIT/campus-core-api): Node 24, NestJS/Fastify, PostgreSQL 18 development setup, 11 application tables, a migration ledger, tenant RLS and fourteen database/API/migration integration tests. Authentication endpoints and school workflows are not implemented. No production deployment, messaging integration or payment collection exists. The HTML prototypes contain illustrative local records. The ordered implementation plan is `previews/school-implementation-plan.html`; the full database catalogue is a roadmap rather than the first migration.
 
 ## Stack and deployment direction
 

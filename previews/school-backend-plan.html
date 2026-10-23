@@ -1,0 +1,314 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light dark"><title>School platform · full backend plan</title><style>
+:root{color-scheme:light dark;--bg:light-dark(#f7f7f5,#141718);--panel:light-dark(#ffffff,#1b2022);--ink:light-dark(#1c292e,#e8eeee);--muted:light-dark(#516269,#aab8be);--line:light-dark(#d9dfdf,#344145);--accent:light-dark(#075c62,#8ed3cf);--soft:light-dark(#e9f1f0,#233536)}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:28px}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--accent);text-underline-offset:3px}button,input,select{font:inherit}button,select,summary{cursor:pointer}button{padding:8px 12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:5px}button:hover{background:var(--soft)}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}h1{font-size:30px;line-height:1.2;margin:8px 0 18px;letter-spacing:-.5px}h2{font-size:22px;line-height:1.35;margin:10px 0 18px}h3{font-size:16px;line-height:1.4;margin:0}h4{font-size:14px;margin:18px 0 8px}p{margin:10px 0 16px}code{font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--bg);padding:16px;border-radius:5px;max-height:650px;overflow:auto}pre code{white-space:pre-wrap}.shell{display:grid;grid-template-columns:260px minmax(0,1fr);max-width:1500px;margin:auto}.sidebar{padding:28px 20px;position:sticky;top:0;height:100dvh;overflow:auto;border-right:1px solid var(--line)}.brand{font-weight:650;letter-spacing:.03em}.sidebar nav{display:grid;gap:4px;margin-top:20px}.sidebar a{display:block;text-decoration:none;padding:6px 8px;font-size:13px;border-radius:4px}.sidebar a:hover{background:var(--soft)}.sidebar .nav-group{margin-top:18px;color:var(--muted);font-size:11px;letter-spacing:.09em;text-transform:uppercase}.main{min-width:0;padding:42px 42px 70px}.eyebrow{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}.lead{font-size:18px;max-width:850px}.intro-section{padding-bottom:34px;margin-bottom:30px;border-bottom:1px solid var(--line);scroll-margin-top:25px}.status-note,.note{padding:14px 16px;background:var(--soft);border-radius:5px;font-size:14px}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin:26px 0 34px}.stats strong{display:block;font-size:25px;font-weight:600}.stats span{font-size:12px;color:var(--muted)}.storage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px}.storage-grid p{font-size:14px}.reading-list{padding-left:22px}.reading-list li{margin-bottom:12px}.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:20px 0 28px}.flow span{padding:6px 10px;background:var(--soft);border-radius:4px;font-size:13px}.flow b{font-weight:400;color:var(--muted)}.table-scroll{overflow:auto;max-width:100%}table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;min-width:95px}th{font-weight:600;color:var(--muted)}td{overflow-wrap:anywhere}.table-card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:18px 20px;margin:12px 0;scroll-margin-top:28px}.table-card header{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.table-card h3{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:15px;overflow-wrap:anywhere}.table-card>p{font-size:14px;margin-bottom:12px}.tag{font-size:11px;color:var(--muted);background:var(--bg);padding:2px 7px;border-radius:4px}.table-card summary{font-size:13px;color:var(--accent);padding:4px 0}.table-card details[open]>summary{margin-bottom:12px}dl{display:grid;grid-template-columns:140px minmax(0,1fr);font-size:13px;gap:9px;margin:20px 0}dt{color:var(--muted)}dd{margin:0;overflow-wrap:anywhere}.module{margin-top:38px}.module-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}.module-head h2{margin-bottom:0}.module-intro{font-size:14px;color:var(--muted)}.toolbar{display:grid;grid-template-columns:minmax(0,1fr) 210px auto;gap:12px;align-items:end;margin:20px 0}label{display:grid;gap:5px;font-size:12px;color:var(--muted)}input,select{min-width:0;width:100%;border:1px solid var(--line);padding:9px 10px;border-radius:5px;background:var(--panel);color:var(--ink)}.actions{display:flex;gap:8px;flex-wrap:wrap}.result-count{font-size:13px;color:var(--muted);margin-top:10px}.empty{padding:24px 0;color:var(--muted)}.relationship-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}.relationship-grid div{border-top:1px solid var(--line);padding-top:14px}.relationship-grid p{font-size:13px}details.sql-block{margin-top:18px}section[hidden],article[hidden],div[hidden]{display:none!important}.toplinks{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;margin-bottom:22px}
+@media(max-width:1050px){.shell{grid-template-columns:210px minmax(0,1fr)}.main{padding:28px}.storage-grid{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr 180px}.toolbar>.actions{grid-column:1/-1}}
+@media(max-width:720px){.shell{display:block}.sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:18px}.sidebar nav{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}.sidebar .nav-group{width:100%;margin-top:10px}.sidebar a{padding:4px 6px}.main{padding:26px 16px}.stats{gap:12px}.stats strong{font-size:22px}.stats span{font-size:11px}.toolbar{grid-template-columns:1fr}.toolbar>.actions{grid-column:auto}.relationship-grid{grid-template-columns:1fr}h1{font-size:26px}.table-card{padding:15px 12px}dl{grid-template-columns:1fr;gap:4px}dd{margin-bottom:8px}}
+@media print{.sidebar,.toolbar,.actions,.toplinks{display:none}.shell{display:block}.main{padding:0}body{background:white;color:black}.table-card{break-inside:avoid;background:white}details:not([open]){display:block}pre{max-height:none}.status-note,.note{background:none;border:1px solid #888}}
+
+.main>h2{margin-top:38px;border-top:1px solid var(--line);padding-top:28px}.main li{margin-bottom:8px}.main blockquote{margin:20px 0;padding-left:18px;border-left:2px solid var(--line)}</style></head><body><div class="shell"><aside class="sidebar"><div class="brand">SCHOOL PLATFORM</div><div class="eyebrow">Full backend plan</div><nav aria-label="Plan sections"><a href="#plan-1-decisions-and-assumptions">1. Decisions and assumptions</a><a href="#plan-2-architecture-and-repository">2. Architecture and repository</a><a href="#plan-3-module-ownership-and-data-boundaries">3. Module ownership and data boundaries</a><a href="#plan-4-tenant-and-identity-design">4. Tenant and identity design</a><a href="#plan-5-core-relational-model-and-invariants">5. Core relational model and invariants</a><a href="#plan-6-api-conventions-and-representative-contracts">6. API conventions and representative contracts</a><a href="#plan-7-platform-onboarding-and-commercial-lifecycle">7. Platform onboarding and commercial lifecycle</a><a href="#plan-8-fees-payments-and-accounting">8. Fees, payments and accounting</a><a href="#plan-9-messaging-exams-and-record-history">9. Messaging, exams and record history</a><a href="#plan-10-library-inventory-and-procurement">10. Library, inventory and procurement</a><a href="#plan-11-private-files-galleries-and-downloads">11. Private files, galleries and downloads</a><a href="#plan-12-jobs-consistency-and-integration-contracts">12. Jobs, consistency and integration contracts</a><a href="#plan-13-deployment-cost-and-recovery">13. Deployment, cost and recovery</a><a href="#plan-14-ai-extension-contract">14. AI extension contract</a><a href="#plan-15-delivery-sequence-and-acceptance-gates">15. Delivery sequence and acceptance gates</a><a href="#plan-16-verification-plan">16. Verification plan</a><a href="#plan-17-first-implementation-backlog">17. First implementation backlog</a><a href="#plan-18-decisions-to-close-during-implementation-discovery">18. Decisions to close during implementation discovery</a></nav></aside><main class="main"><div class="toplinks"><a href="school-architecture-review.html">Architecture review</a><a href="school-database-design.html">Database design</a></div><p class="note">HTML edition created 22 October 2026 from the original backend plan dated 15 October. The separate database design expands the table model and clarifies live rate counters versus durable traffic/usage data.</p><h1 id="plan-school-platform-backend-implementation-plan">School platform backend implementation plan</h1>
+<p>15 October 2026 · Proposed design · No production code or database implemented by this plan</p>
+<p>Build one TypeScript backend repository with a NestJS/Fastify API, a separately runnable worker, PostgreSQL and private S3 storage. Keep module ownership explicit and deploy simply. The first production milestone should prove that two schools can use daily academic workflows safely, with recoverable records and dependable parent access.</p>
+<p>This plan expands the supplied brief and existing backend blueprint into implementation decisions, records, request contracts, invariants and release gates. It preserves the full intended product; later modules are scheduled rather than removed.</p>
+<h2 id="plan-1-decisions-and-assumptions">1. Decisions and assumptions</h2>
+<p><strong>Already selected:</strong> React/Vite/TypeScript frontend, Node.js/TypeScript/NestJS/Fastify backend, PostgreSQL, pg-boss workers, private S3 and a modular monolith. Nest documents a Fastify adapter; plugins and middleware must be compatible with that adapter. <a href="https://docs.nestjs.com/techniques/performance">Nest Fastify documentation</a>.</p>
+<p><strong>Additional proposed defaults:</strong> REST with OpenAPI; Drizzle over node-postgres for typed database queries, plus reviewed SQL migrations for RLS, constraints and posting procedures; server-side browser sessions; explicit transactional outbox; application-level permissions plus database tenant isolation. Drizzle exposes transaction handles, which fit the requirement to carry one scoped transaction through repositories. <a href="https://orm.drizzle.team/docs/transactions">Drizzle transactions</a>.</p>
+<p>Use supported stable runtime/library releases, pin the tested combination and lock dependencies at implementation time. Do not select a preview version just to match a newer example. A short foundation spike must validate Nest/Fastify plugins, database transaction handling and the chosen pg-boss version together.</p>
+<p><strong>Planning assumptions:</strong> one customer school equals one tenant; browser/PWA first; an experienced primary developer; a small pilot rather than guaranteed capacity; imports from school spreadsheets; English and Hindi content; one school currency, INR, initially. A person can hold multiple school memberships and multiple roles. Multi-campus organisations remain a later extension; keep operational locations distinct from tenants.</p>
+<p>The earlier ₹2,000–₹4,000 monthly allowance remains an unverified pilot budget, excluding substantial messaging, egress, payment fees, support and development. This document supplies no current provider quote.</p>
+<h2 id="plan-2-architecture-and-repository">2. Architecture and repository</h2><p id="implementation-repository-update"><strong>Implementation update — 24 October 2026:</strong> executable backend source, migrations, tests and CI now live in the private <a href="https://github.com/nishantgautamIT/campus-core-api">campus-core-api</a> repository. Designs, research and HTML plans remain in school-os-docs. The backend repository README is authoritative for its current root layout and local commands; the broader layout below remains a roadmap.</p>
+<div class="flow" aria-label="Backend architecture"><span>React / PWA</span><b>→</b><span>TLS edge</span><b>→</b><span>NestJS API + authorisation</span><b>→</b><span>Domain modules</span><b>→</b><span>PostgreSQL + outbox</span><b>→</b><span>pg-boss worker</span><b>→</b><span>Private S3 + provider adapters</span></div><details><summary>Detailed architecture source</summary><pre><code>flowchart TD
+    Web[React web / PWA] --&gt; Edge[TLS reverse proxy]
+    Edge --&gt; API[NestJS + Fastify API]
+    API --&gt; Auth[Session + membership + permission + resource scope]
+    Auth --&gt; Domain[Domain services and repositories]
+    Domain --&gt; DB[(PostgreSQL: domain records + outbox)]
+    DB --&gt; Relay[Outbox relay]
+    Relay --&gt; Queue[pg-boss]
+    Queue --&gt; Worker[Node worker: bounded concurrency]
+    Worker --&gt; DB
+    API --&gt; S3[Private S3 uploads / authorised downloads]
+    Worker --&gt; S3
+    Worker --&gt; Adapters[Email / messaging / payment / AI adapters]
+    Providers[Provider callbacks] --&gt; Inbox[Signature verification + durable inbox]
+    Inbox --&gt; DB
+</code></pre></details>
+<p>Suggested repository layout:</p>
+<pre><code class="language-text">apps/
+  api/src/                  # HTTP bootstrap, guards, controllers
+  worker/src/               # job registration, scheduling, delivery
+packages/
+  domain/                   # feature modules and their public services
+    platform/ identity/ academics/ students/ attendance/ homework/
+    fees/ communications/ exams/ resources/ procurement/
+    accounting/ media/ ai/
+  database/                 # schema, migrations, scoped transaction helper
+  contracts/                # transport DTOs, error codes, generated API types
+  integrations/             # provider ports and adapters
+  observability/            # logging, metrics, trace context
+tests/
+  integration/ isolation/ concurrency/ recovery/
+infra/                      # container builds, deployment and restore runbooks
+</code></pre>
+<p>Controllers validate transport input and invoke an application service. Services enforce permissions and transitions. Repositories accept an explicit transaction handle. Other modules call public services; they do not mutate another module&#39;s tables. Keep this enforceable with package exports and import rules. Shared packages hold mechanisms, not a universal business service.</p>
+<p>Use synchronous calls for work that must commit atomically, such as a fee receipt and its allocations. Use durable events for PDF generation, notifications, projections and later integrations. A queue or object-store upload is never treated as part of a PostgreSQL transaction.</p>
+<h2 id="plan-3-module-ownership-and-data-boundaries">3. Module ownership and data boundaries</h2>
+<p>Use logical PostgreSQL schemas such as <code>control</code>, <code>iam</code>, <code>school</code>, <code>school_finance</code> and <code>ops</code>. Schemas organise ownership; grants, RLS and application checks enforce access. Platform invoices and school invoices have distinct tables and identifiers even if they share calculation utilities.</p>
+<ul>
+<li><strong>Platform:</strong> customers, billing contacts, plan versions, contract versions, subscriptions, commercial line items, platform invoices, payments, renewals, provisioning runs and support grants. Owns your business revenue and tenant lifecycle.</li>
+<li><strong>Identity:</strong> users, verified contacts, credentials, sessions, setup/reset tokens, school login identifiers, memberships, roles, permissions and scoped role assignments. Does not equate a verified phone with a verified guardian relationship.</li>
+<li><strong>Academics:</strong> academic years, class definitions, sections, subjects, section-subject offerings, teacher assignments and calendars.</li>
+<li><strong>Students:</strong> admission applications, stable student identities, yearly enrolments, placements, guardians, verified user-to-guardian links and student-guardian relationships.</li>
+<li><strong>Attendance/homework:</strong> attendance sessions and revisions; assignments, audience snapshots, submissions and feedback.</li>
+<li><strong>Fees:</strong> fee schedules, charges, concessions, payments, allocations, receipts, refunds and reversals. Owns student receivables before full GL exists.</li>
+<li><strong>Communications:</strong> notices, translations, approval versions, audience definitions, recipient snapshots, deliveries, attempts and action links.</li>
+<li><strong>Exams:</strong> assessments, schedules, paper versions, reviews, release grants, invigilation, attempts, marks revisions and report-card publications.</li>
+<li><strong>Resources:</strong> vendors, locations, consumable movements, assets/custody, book titles/copies, circulation and stock checks.</li>
+<li><strong>Procurement:</strong> requisitions, approval decisions, orders, receipts/inspection, returns and invoice-match exceptions.</li>
+<li><strong>Accounting:</strong> school chart of accounts, periods, journals, lines, receivables/payables, bank reconciliation and approved posting policies.</li>
+<li><strong>Media:</strong> upload intents, objects, event/gallery versions, audience policies, packages and expiring application grants.</li>
+<li><strong>Operations/AI:</strong> audit, outbox/inbox, idempotency records, usage and quotas; later AI requests, approved generations and cost reservations.</li>
+</ul>
+<p>Public-school configuration should never share a response DTO with credentials, contracts or private finance data. Publish dedicated role-appropriate student and parent DTOs to prevent field leakage.</p>
+<h2 id="plan-4-tenant-and-identity-design">4. Tenant and identity design</h2>
+<h3>A request&#39;s authority</h3>
+<p>For school endpoints: verify session → resolve selected school → verify active membership and access policy → check action permission → check class/child/resource scope → open scoped transaction → query permitted records. The school code or route tenant ID is a selector, not evidence of access.</p>
+<p>Resolve bootstrap session/membership through a narrowly scoped identity access path that can only return the authenticated principal&#39;s memberships. Do not give all school repositories unrestricted access to all users. Platform endpoints use a separate guard and database role/pool with no default access to school records.</p>
+<p>A trusted request context contains <code>actorUserId</code>, <code>tenantId</code>, <code>membershipId</code>, <code>permissionVersion</code>, <code>requestId</code> and optional <code>supportGrantId</code>. Resolve these server-side. Never accept role, actor, permission or support-grant validity from request JSON.</p>
+<h3>Database contract</h3>
+<p>Every tenant-owned table has <code>tenant_id NOT NULL</code>. Tenant tables expose a unique <code>(tenant_id, id)</code> key; child relationships reference both columns. Unique admission numbers, school usernames, receipt series and accession numbers include their tenant scope. This prevents an otherwise valid foreign key from linking School A&#39;s record to School B.</p>
+<p>Illustrative RLS migration pattern, not a complete schema:</p>
+<pre><code class="language-sql">ALTER TABLE school.students ENABLE ROW LEVEL SECURITY;
+ALTER TABLE school.students FORCE ROW LEVEL SECURITY;
+
+CREATE POLICY students_tenant_scope ON school.students
+  TO school_app
+  USING (
+    tenant_id = nullif(current_setting(&#39;app.tenant_id&#39;, true), &#39;&#39;)::uuid
+  )
+  WITH CHECK (
+    tenant_id = nullif(current_setting(&#39;app.tenant_id&#39;, true), &#39;&#39;)::uuid
+  );
+</code></pre>
+<p>Within one transaction and one checked-out connection, set parameterised context using <code>SELECT set_config(&#39;app.tenant_id&#39;, $1, true)</code>. Pass that transaction to every repository in the operation. Reads also use the wrapper. No global mutable tenant state, no session-wide <code>SET</code>, no unrelated <code>pool.query</code> inside the transaction. Missing context denies tenant rows. PostgreSQL transactions must use the same node-postgres client throughout. <a href="https://node-postgres.com/features/transactions">node-postgres transaction guidance</a>.</p>
+<p>Runtime roles cannot own tables, change policies, truncate tenant tables, become migration roles or use <code>BYPASSRLS</code>. Workers use the same tenant transaction discipline. A separate restricted queue role handles pg-boss metadata; a privileged migration role is used only in deployment.</p>
+<p>RLS here enforces <strong>school isolation</strong>. Teacher assignment and guardian-child limits are additional scoped application queries and policy checks; they are not satisfied merely by having a tenant ID. RLS is a second boundary, not a substitute for parameterised SQL or secure application code. PostgreSQL owners/superusers and referential-integrity checks have important RLS exceptions. <a href="https://www.postgresql.org/docs/current/ddl-rowsecurity.html">PostgreSQL row security</a>.</p>
+<h3>Accounts and sessions</h3>
+<ul>
+<li>One global user identity can have multiple memberships; school usernames are unique within a tenant. Do not automatically merge people because a family shares a phone.</li>
+<li>Prefer high-entropy opaque browser sessions in <code>Secure</code>, <code>HttpOnly</code> cookies, with server-side revocation, idle/absolute expiry and rotation after authentication or privilege change. Apply CSRF protection to cookie-authenticated writes and a strict origin policy. Keep browser/API on a compatible same-site deployment where practical. <a href="https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html">OWASP sessions</a>.</li>
+<li>Use an established authentication library behind an internal interface, selected after a compatibility spike. Password storage uses Argon2id with parameters benchmarked on the pilot server. Never log passwords or setup tokens. <a href="https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html">OWASP password storage</a>.</li>
+<li>Setup/reset tokens are hashed at rest, single-use and expiring; consumption is atomic. Setup tokens are bound to the intended user and school. A temporary credential produces a restricted password-change session only.</li>
+<li>Require MFA for platform administrators before live onboarding. Add school-admin MFA, rate limits and a documented recovery process; limit concurrent expensive password checks on a small host.</li>
+<li>Parent verification requires an approved child relationship. A matching admission number or phone by itself cannot establish access. Relationship revocation affects the next authorised request and new download grants.</li>
+<li>Role changes or membership suspension invalidate effective permissions immediately through a version check or fresh lookup; do not rely on a long-lived role claim.</li>
+</ul>
+<p>Permissions are explicit actions, for example <code>attendance.write</code>, <code>fees.refund.approve</code>, <code>exam.paper.release</code>, <code>report.publish</code>, <code>inventory.adjust</code> and <code>accounting.period.close</code>. Assign scopes separately. A school administrator can operate the school but cannot erase audit history or bypass posted-record correction rules.</p>
+<h2 id="plan-5-core-relational-model-and-invariants">5. Core relational model and invariants</h2>
+<p>Use UUID identifiers, <code>timestamptz</code> for instants, local <code>date</code> for attendance/school calendar dates and <code>Asia/Kolkata</code> as the initial school timezone. Store exact decimal values in PostgreSQL; transfer money as decimal strings or integer minor-unit strings. Never use JavaScript floating point for financial arithmetic. Quantities may need fractional units and conversion policies.</p>
+<p>Include <code>created_at</code>, <code>created_by</code>, <code>updated_at</code> and an optimistic <code>version</code> on editable records. Use purpose-specific cancellation/withdrawal states; generic soft deletion must not hide financial or historical evidence. Required identifiers and foreign keys remain normalised columns; JSONB is for bounded metadata, provider payloads and immutable snapshots, not the whole domain model.</p>
+<p><strong>Academic relationships</strong></p>
+<pre><code class="language-text">tenant → academic_year → section → section_subject
+student → enrolment(student, academic_year) → placement history(section, effective dates)
+teacher membership → teacher_assignment(section_subject, effective dates)
+user → verified guardian link → guardian → student_guardian → student
+attendance_session(section, date, session_type) → attendance_entry(enrolment)
+homework_assignment → assigned enrolments → submissions → feedback revisions
+</code></pre>
+<ul>
+<li>Keep student identity stable. Enrolments record year-specific admission/roll/status. Placement history handles section transfers without rewriting previous attendance or teacher responsibility.</li>
+<li>Default to one active enrolment per student per school academic year; model withdrawal and re-entry as explicit transitions and history.</li>
+<li>Prevent overlapping active placements or duplicate subject assignments where the school policy forbids them. Enforce constraints in the database, not only in a form.</li>
+<li>Attendance entries are unique per attendance session and enrolment. Entries must belong to the permitted section for that date; corrections retain actor, reason and previous state. Absence and “not recorded” are separate values.</li>
+<li>Homework assigns a snapshot of eligible enrolments. Preserve assignment and submission versions; a later transfer does not silently rewrite the original audience. Apply an explicit policy for adding transferred students.</li>
+<li>Import rows first enter staging, are validated and previewed, then commit in bounded batches. Keep import source keys and per-row outcomes so retry does not duplicate students or charges.</li>
+</ul>
+<p><strong>Indexes driven by access patterns</strong></p>
+<p>Start with <code>(tenant_id, academic_year_id, section_id, status, id)</code> on enrolments/placements as appropriate; <code>(tenant_id, student_id, academic_year_id)</code> on enrolments; <code>(tenant_id, student_id, guardian_id)</code> and the guardian-first counterpart for verified links; <code>(tenant_id, session_id, enrolment_id)</code> on attendance; <code>(tenant_id, enrolment_id, due_date, id)</code> on charges; <code>(tenant_id, status, scheduled_at, id)</code> on communication work; <code>(tenant_id, entity_type, entity_id, occurred_at)</code> on audit.</p>
+<p>Validate exact indexes with representative queries and <code>EXPLAIN (ANALYZE, BUFFERS)</code> in staging. Include tenant columns in uniqueness rules and necessary child-side FK indexes. A list of indexes is a starting hypothesis, not proof of performance.</p>
+<p>For All Students, allowlisted filters compose on the server. Attendance percentage requires a defined date interval and denominator; fee status requires defined due-date/cutoff rules. Join pre-aggregated tenant/enrolment projections rather than multiplying attendance and fee rows in a single naive join. Distinguish authoritative detail from asynchronously refreshed summaries and show freshness where material.</p>
+<h2 id="plan-6-api-conventions-and-representative-contracts">6. API conventions and representative contracts</h2>
+<p>Expose <code>/v1/platform/...</code>, <code>/v1/schools/:schoolId/...</code> and narrowly defined <code>/v1/auth/...</code> and <code>/v1/webhooks/:provider</code> paths. School routes remain membership-checked even when the ID is a UUID. Generate an OpenAPI contract and frontend client types; do not expose ORM row shapes directly.</p>
+<ul>
+<li>Validate unknown fields, string lengths, date ranges, file limits and batch sizes; allowlist sort keys. Start with a maximum list size of 100 and adjust from measurements.</li>
+<li>Cursor pagination with a deterministic tie-breaker for large lists. Support bounded page-number browsing if the school needs it; avoid unrestricted deep offsets and expensive exact counts on every request.</li>
+<li>Return stable error codes with <code>requestId</code>. Use <code>401</code> for unauthenticated, <code>403</code> for forbidden action, <code>404</code> for unavailable or out-of-scope resources, <code>409</code> for stale versions/invalid transitions and <code>422</code> for validly parsed but invalid domain input.</li>
+<li>Require an idempotency key for financial/provisioning commands and selected bulk operations. Scope by principal/tenant/operation; save payload hash and result. Reuse with different input is a conflict. Durable uniqueness rules outlive key expiry where duplication would be harmful.</li>
+<li>Use expected <code>version</code> or <code>If-Match</code> for mutable aggregates. A stale edit does not silently overwrite a concurrent correction.</li>
+<li>Async commands return <code>202</code> and a tenant-scoped job/status resource. Authorise job inspection and final artifact download separately.</li>
+</ul>
+<p>Representative routes:</p>
+<pre><code class="language-text">POST /v1/platform/customers
+POST /v1/platform/customers/:id/contracts
+POST /v1/platform/customers/:id/provisioning-runs
+POST /v1/platform/tenants/:id/support-grants
+POST /v1/auth/login
+POST /v1/auth/setup/complete
+POST /v1/auth/logout
+GET  /v1/auth/memberships
+
+GET  /v1/schools/:schoolId/students?yearId=...&amp;sectionId=...&amp;cursor=...
+POST /v1/schools/:schoolId/students
+POST /v1/schools/:schoolId/students/:id/enrolments
+GET  /v1/schools/:schoolId/students/:id/profile
+POST /v1/schools/:schoolId/imports
+POST /v1/schools/:schoolId/attendance-sessions
+PUT  /v1/schools/:schoolId/attendance-sessions/:id/entries
+POST /v1/schools/:schoolId/attendance-entries/:id/corrections
+POST /v1/schools/:schoolId/homework
+POST /v1/schools/:schoolId/homework/:id/submissions
+GET  /v1/schools/:schoolId/parent/children
+GET  /v1/schools/:schoolId/parent/children/:id/dashboard
+
+POST /v1/schools/:schoolId/fees/charge-runs
+POST /v1/schools/:schoolId/fees/payments
+POST /v1/schools/:schoolId/fees/refunds
+POST /v1/schools/:schoolId/messages/audience-previews
+POST /v1/schools/:schoolId/messages/:id/approvals
+POST /v1/schools/:schoolId/messages/:id/schedules
+POST /v1/schools/:schoolId/exams/:id/papers/:paperId/reviews
+POST /v1/schools/:schoolId/exams/:id/papers/:paperId/releases
+POST /v1/schools/:schoolId/report-publications
+POST /v1/schools/:schoolId/library/loans
+POST /v1/schools/:schoolId/library/loans/:id/returns
+POST /v1/schools/:schoolId/purchase-orders/:id/receipts
+POST /v1/schools/:schoolId/journals/:id/postings
+POST /v1/schools/:schoolId/galleries/:id/packages
+POST /v1/schools/:schoolId/download-grants/:id/redeem
+</code></pre>
+<p>Attendance batch writes verify every enrolment and the session version; reject an invalid batch atomically unless the API explicitly offers per-row results. Profiles load permitted summaries first and paginate heavy history through separate endpoints.</p>
+<h2 id="plan-7-platform-onboarding-and-commercial-lifecycle">7. Platform onboarding and commercial lifecycle</h2>
+<p>Store contract versions and accepted commercial terms as immutable snapshots: plan, subscription line items, separate maintenance recurrence, optional setup charge, effective dates, billing contacts and approved tax fields. Existing customer terms do not change when the plan catalogue is edited.</p>
+<p>Use separate states for <code>contract</code>, <code>subscription</code>, <code>tenant access</code>, <code>provisioning run</code> and <code>invoice/payment</code>. “Invoice unpaid” is not automatically the same as “school suspended.” Define grace periods and read-only behaviour as an explicit product policy, with a controlled export/support route.</p>
+<p>Provisioning is an idempotent state machine:</p>
+<pre><code class="language-text">commercial terms recorded → tenant created → defaults seeded
+→ first membership created → setup invitation queued → setup completed
+→ activation conditions checked → active
+</code></pre>
+<p>Each step has a stable key and result. A failed email retries the invitation, not tenant creation. A consumed/expired setup link cannot be replayed. Activation is explicit and requires the accepted terms and administrator setup appropriate to that customer; payment gates are configurable commercial policy.</p>
+<p>Subscription renewals use immutable invoice lines and unique billing-period keys so a worker retry cannot double bill. Maintenance and subscription recurrence produce distinct charge lines. Platform payments never allocate against a student&#39;s dues.</p>
+<p>Support grants name the operator, school, reason, allowed actions/data, expiry and school approval evidence. Recheck before each sensitive action; audit reading private records and downloading exports. Platform administration is not blanket school impersonation.</p>
+<h2 id="plan-8-fees-payments-and-accounting">8. Fees, payments and accounting</h2>
+<h3>Pilot fee subledger</h3>
+<p>Support fee schedules, generated charges, concessions, authorised adjustments, cash/bank payment entry, payment allocations, numbered receipts, cancellation/reversal and balances. Prohibit deletion of posted receipts. Refunds and unapplied advances are explicit records. A correction preserves the original and issues a linked reversal/replacement.</p>
+<p>Charge-run uniqueness includes tenant, enrolment, fee component and billing period. Receipt numbering uses a transaction-safe tenant/series counter; never use <code>MAX(number) + 1</code>. Define the policy for cancelled receipt numbers and preserve their history.</p>
+<p>Payment, receipt, allocation, audit and outbox changes commit together. Allocation totals cannot exceed settled funds or charge balance. Serialize relevant balance changes with row locks in a consistent order, or use equivalent conditional writes with bounded retries. Balances derive from posted entries; cached totals are rebuildable.</p>
+<p>First pilot can reconcile manually entered payment references. Online student payment collection comes in the next slice after merchant ownership, settlement destination and refund responsibilities are agreed with the pilot school. Keep payment-provider credentials and merchant mappings separate for your platform&#39;s revenue and each school&#39;s student payments; do not assume your merchant account can collect for every school.</p>
+<h3>Reliable provider processing</h3>
+<p>Verify the provider signature over the required raw payload; resolve the merchant/tenant from a trusted stored mapping. Persist a deduplicated inbox entry before acknowledging a valid callback. Process asynchronously with retries, an explicit state machine and reconciliation for missing/out-of-order events. A browser redirect never marks funds settled.</p>
+<p>Uniqueness on provider/merchant/event and on the provider payment reference prevents duplicate receipts. If a callback lacks sufficient authoritative state, fetch provider status through its adapter. Unknown mappings or inconsistent amounts go to review. Test settlement followed by refund, duplicate and delayed events, and failure after inbox commit.</p>
+<h3>Full accounting in its own release</h3>
+<p>Implement school chart of accounts, balanced journals, receivables/payables, bank/cash, reconciliation, assets/depreciation where applicable, period closing, reversals and reports only after accountant-approved scenarios exist. Define tax and reporting mappings with the school&#39;s accountant; this plan does not determine statutory applicability.</p>
+<p>Journal lines require one-sided nonnegative debit/credit amounts and valid same-tenant accounts. Posting must atomically validate total debits equal total credits, open period, source uniqueness and permissions. A controlled database posting procedure/trigger plus privileges must prevent direct insertion of an unbalanced posted journal; a cross-row <code>CHECK</code> alone cannot enforce the aggregate.</p>
+<p>Lock the period and relevant document state during posting; period close and concurrent posting must follow the same lock protocol. Posted records are immutable and corrections reverse them under an approved policy. Operational source keys prevent duplicate posting from a retried business event.</p>
+<p>Fees remain the receivables source of truth. When GL launches, choose a cutover date, reconcile opening balances and mark which historical records are represented in those balances; do not repost the same historical receipts. Separate operational fee reports from financial reports until reconciliation proves agreement.</p>
+<h2 id="plan-9-messaging-exams-and-record-history">9. Messaging, exams and record history</h2>
+<h3>Communication</h3>
+<p>Store notice content versions per language, approval decisions and the audience definition. Approval freezes content and an eligible recipient snapshot. Audience preview returns recipient counts, channel availability and estimated units, without exposing parent contacts to other parents.</p>
+<p>At delivery time, recheck current guardian relationship, channel permission, optional linked membership and cancellation so a revoked guardian is excluded. Parents can receive WhatsApp without a portal account; private records and action links still require authentication or a separately verified action flow. Do not silently expand an approved audience; additions or substantive content edits require a new approval. Preserve snapshot and exclusion reasons.</p>
+<p>WhatsApp is the confirmed primary single/bulk channel for the pilot, through the official Business Platform directly or an approved provider. Recommend a school-owned sender identity, approved English/Hindi templates and per-school sending budgets. A single send is a one-recipient campaign; bulk sending fans out to private per-recipient deliveries. Track queued, submitted, provider-accepted, delivered, failed and read separately. Deduplicate identical approved content/destinations without assuming that a shared phone proves authority over all children. Apply sender/provider limits and permission checks in the worker.</p>
+<p>Free and paid eligibility is evaluated per message, not by batch size. The same configured API handles eligible zero-Meta-fee service replies and chargeable messages. Keep pricing/allowance rules effective-dated, reserve estimated budget, and reconcile final provider billing. The <a href="school-whatsapp-options.html">WhatsApp free/paid comparison</a> records current evidence, provider fees, trial restrictions and routing examples. Do not promise free bulk template broadcasts based on a service-message allowance.</p>
+<p>Reading a notice does not complete consent, payment or homework. Those are separate domain actions with their own actor, timestamp and evidence. English/Hindi content versions remain distinct from each parent&#39;s UI language. AI translations stay drafts until staff approve them.</p>
+<h3>Exams</h3>
+<pre><code class="language-text">draft → submitted → changes_requested → resubmitted → approved → locked → released
+</code></pre>
+<p>Approval is bound to a paper version and checksum. Editing approved content creates a new version and invalidates approval. Paper access uses dedicated permissions and private files, not normal teacher attachment access; answer-key access is separately controlled. Author, reviewer, approver, releaser and invigilator are separate recorded responsibilities.</p>
+<p>Store scheduled exam sessions, invigilator assignments, student eligibility and attempts/absence. Mark entries retain revision number, actor, time and correction reason; validate maximum marks and authorised subject/section. Use optimistic versions for competing entry/correction.</p>
+<p>Report publication freezes the source mark revisions, grading policy version, calculation rules and generated artifact. Publish only authorised student-visible fields. Corrections create a superseding publication; parents see the current published version while authorised history remains. Never regenerate a historical report silently from today&#39;s marks.</p>
+<p>Audit is not a substitute for domain history: paper reviews, attendance revisions, marks revisions, receipt reversals and publication versions have first-class records. The application role can append audit rows but cannot update/delete them. Export audit evidence off-host with restricted access; this improves tamper resistance but does not make a database administrator technically incapable of tampering.</p>
+<h2 id="plan-10-library-inventory-and-procurement">10. Library, inventory and procurement</h2>
+<p>Share vendors, locations, approval infrastructure and acquisition references. Keep the ledgers distinct:</p>
+<ul>
+<li>Consumables use append-only quantity movements and consistent units; on-hand is derived or a reconciled projection. Prevent negative stock through row locks/conditional balance updates in the same transaction.</li>
+<li>Assets track individual tags, custody intervals, location, condition and maintenance. Custody is not an accounting disposal.</li>
+<li>Library separates title/edition metadata from physical copies. Accession/barcode uniqueness is per school. Use a partial unique index on <code>(tenant_id, copy_id)</code> for open loans, plus copy/loan state checks. Concurrent borrowers cannot both obtain one copy.</li>
+</ul>
+<p>Borrowing affects availability and custody, not ownership or GL. Returns are idempotent and preserve condition/overdue history. Lost, damaged and withdrawn copies use explicit policies and approved write-offs; scanning a withdrawn copy cannot restore it automatically.</p>
+<p>Procurement records requested, ordered, received, accepted, rejected, billed and returned quantities separately. Lock outstanding order quantities during receipt acceptance to prevent over-receipt beyond approved tolerances. Partial receipt leaves the remainder open. Unique source references prevent duplicate accession/stock updates from retries.</p>
+<p>Supplier invoice matching compares approved order, accepted receipt and supplier bill. Exceptions require a decision, not automatic changes to the original order. School accounting determines whether a receipt accrual or other posting is appropriate. Donations and opening registers are explicit sources and do not manufacture supplier invoices.</p>
+<p>Separate request, approval, receipt, invoice posting and payment permissions; permit documented combined roles for small schools while retaining evidence. Closing procurement exceptions and validating accountant reports is a release gate for this module.</p>
+<h2 id="plan-11-private-files-galleries-and-downloads">11. Private files, galleries and downloads</h2>
+<p>All files use private S3 keys generated by the server under tenant/object namespaces; the namespace is organisational, not an access check. Metadata includes tenant, owner record, uploader, size, content type, checksum, scan state and retention class. Keep unreleased exam files in a stricter permission category than general attachments.</p>
+<p>Create a size/type-limited upload intent, then a short-lived upload authorisation. Confirm the uploaded object&#39;s real size/type/checksum server-side and quarantine it until required scanning/validation succeeds. Use immutable random keys or pinned object versions so a reused upload URL cannot replace content after validation. Only approved objects become attachable/publishable.</p>
+<p>Gallery flow: upload → review media and audience → publish a gallery version → build package → grant access → notify → authenticate/recheck access → issue short-lived download URL. Package identity includes gallery/content version, audience policy and variant. Reuse a ZIP only when all authorised recipients have access to exactly its contents; narrower audiences need filtered packages.</p>
+<p>An application grant is revocable and expiring. Redeeming requires the current guardian relationship and gallery permission. The signed S3 URL is a bearer capability usable until expiry under its storage rules; revoking the application grant blocks future issuance but does not recall downloaded files or necessarily invalidate an already-issued URL. Keep URL lifetimes short and logs free of signatures. <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html">S3 presigned URL behaviour</a>.</p>
+<p>ZIP generation streams in bounded jobs with file/count/total-byte limits, safe filenames and cleanup of failures. Separate original retention from package retention. Deletion is an audited workflow across metadata, objects, derived packages and the documented backup-retention window.</p>
+<h2 id="plan-12-jobs-consistency-and-integration-contracts">12. Jobs, consistency and integration contracts</h2>
+<p>Use a transactional outbox from the first release:</p>
+<ol>
+<li>Commit the domain mutation, audit record and outbox event in one database transaction.</li>
+<li>A relay claims outbox rows and enqueues pg-boss work with stable event identifiers.</li>
+<li>A worker processes with a fresh trusted tenant context, source/version checks and a durable deduplication key.</li>
+<li>Record success, retryable failure or terminal failure with an operator-visible reason.</li>
+</ol>
+<p>A relay may crash between enqueue and marking the outbox dispatched, so consumers must tolerate duplicate delivery. pg-boss queue guarantees do not make external payments, emails or object writes exactly-once. If a provider offers no idempotency support, a crash after provider acceptance can leave an ambiguous send; reconcile when possible and document any residual duplicate risk. <a href="https://github.com/timgit/pg-boss">pg-boss documentation</a>.</p>
+<p>Initial events: <code>TenantProvisioningRequested</code>, <code>AdminSetupRequested</code>, <code>AttendanceFinalised</code>, <code>HomeworkPublished</code>, <code>FeePaymentRecorded</code>, <code>NoticeApproved</code>, <code>ReportPublicationRequested</code>, <code>GalleryPackageRequested</code> and <code>UsageReservationCreated</code>. Version event schemas. Payloads contain minimal IDs/version/context references, not unnecessary child data.</p>
+<p>Workers are bounded by tenant and workload. Separate delivery, reports/imports and media queues. Heavy jobs checkpoint chunks, obey timeouts, use exponential retry/jitter for transient failures and expose exhausted retries. Cancelling a scheduled message or revoking a gallery must be rechecked before an external side effect.</p>
+<p>Adapter ports include mail/message send/status, payment create/query/refund, object storage and AI generation/usage. A fake adapter supports development; provider contract tests run in a sandbox before launch. Store credentials in secrets configuration or encrypted credential storage with keys outside PostgreSQL, never in general tenant settings JSON.</p>
+<h2 id="plan-13-deployment-cost-and-recovery">13. Deployment, cost and recovery</h2>
+<p>Pilot deployment: one modest host running reverse proxy, API, worker and PostgreSQL as separately restartable services; private external object storage; encrypted off-host backups; a small staging environment using synthetic data. Constrain worker memory/CPU so ZIP or PDF work cannot starve the database. Keep PostgreSQL private and expose only the intended TLS entry point.</p>
+<p>Run migrations as a one-off deployment job, not in every API replica. Use reviewed expand/backfill/contract changes, a migration lock, tested backups and a forward-fix or rollback runbook. Pin container/dependency versions. A failed worker should not take the API down.</p>
+<p>Start with a database connection budget, for example API 10 + worker 5 + relay/queue allowance + reserved operational connections, then measure. Count separate pg-boss pools and every future replica; do not multiply default pools accidentally. Bound request/statement timeouts and long exports.</p>
+<p>Measure API latency/error rates, slow queries, pool waits, locks/deadlocks, queue age, exhausted jobs, oldest outbox event, webhook reconciliation failures, disk/WAL growth, backup age and restoration outcomes. Include tenant and request/job IDs in structured logs while redacting contacts, credentials, raw child records and signed URLs.</p>
+<p><strong>Recovery policy:</strong> nightly encrypted off-host backups are the minimum for synthetic/internal trials; they permit up to roughly a day&#39;s data loss. For live fees and daily records, target RPO ≤15 minutes using continuous WAL/PITR or a managed equivalent, with a proposed RTO ≤4 hours. These are targets until a timed restore proves them. If cost cannot support the agreed recovery policy, resolve that before live launch. Restore database, encryption keys and referenced S3 versions coherently; validate recovery with a school reconciliation report.</p>
+<p>Restore to an isolated environment and prove all tenant rows were included, not silently filtered by RLS. Test school export/recovery separately from whole-database disaster recovery. Offboarding should revoke access, stop scheduled work, provide an authorised export and follow the agreed retention policy; cancellation does not immediately delete historical evidence.</p>
+<p>Meter active students/entitlements, stored bytes, downloads, delivery units, imports/report workload and AI spend. Reserve quota atomically before expensive jobs. Apply soft alerts and explicit hard limits by plan. Separate billing usage from operational telemetry.</p>
+<p>Scale in response to measured constraints: reduce query cost and tune indexes first; move heavy workers to another host when contention appears; move/improve the database for memory, I/O or availability; add API replicas for sustained API saturation. Introduce Redis or separate services only when a documented bottleneck or coordination requirement warrants them. This design carries no unmeasured students-per-server promise.</p>
+<h2 id="plan-14-ai-extension-contract">14. AI extension contract</h2>
+<p>AI begins after teaching, timetable, resources and parent relationships are dependable. Feed only authorised minimal source records into each request. Source documents and student submissions are untrusted content and cannot grant tool access or broaden the query scope.</p>
+<p>Store request type, tenant, actor, source record/version references, provider/model configuration, prompt-template version, estimated/reserved cost, actual usage, generated draft, review decision and published version. Cap per-request, per-school and platform spending; release unused reservations safely after failure.</p>
+<p>Start with class-level syllabus drafts, reviewed translations and catch-up packs from lessons actually taught. AI output is a proposed document, never the authority for attendance, marks, fee balance, permissions or posted journals. No student-facing autonomous agent is included in the pilot. Validate provider data handling and school consent/privacy requirements before sending child-related data externally.</p>
+<h2 id="plan-15-delivery-sequence-and-acceptance-gates">15. Delivery sequence and acceptance gates</h2>
+<p>The ranges below are planning estimates for one experienced backend developer, with school feedback, frontend work and provider approvals requiring additional time. They are not calendar commitments. Re-estimate after the foundation spike and the first end-to-end workflow.</p>
+<p><strong>Phase A — Foundation, approximately 3–5 developer-weeks.</strong> Repository, CI, API/worker bootstrap, migrations, identity/session integration, tenant RLS wrapper, permissions, platform contracts/provisioning, outbox, audit and backup/restore runbook. Exit: two synthetic schools provision independently; setup/recovery is secure; cross-school requests, job execution and connection reuse tests pass.</p>
+<p><strong>Phase B — Daily academics, approximately 4–6 developer-weeks.</strong> Academic years/sections/subjects, student/guardian import, enrolments/placements, scoped teacher assignment, attendance corrections, homework/submissions and basic parent endpoints. Exit: a school completes a representative week and year-transition rehearsal; unrelated guardians and teachers cannot retrieve protected records or fields.</p>
+<p><strong>Phase C — Fees and pilot readiness, approximately 3–5 developer-weeks before re-estimation for WhatsApp onboarding.</strong> Fee subledger, manual payment reconciliation, receipts/reversals, WhatsApp single/bulk notices, approved template languages, opt-in/out, delivery callbacks, per-school budgets, operational quotas, exports, load testing and timed restoration. Exit: accountant reconciles sample balances/receipts; duplicate/concurrent writes are safe; sender onboarding/templates and billing reconciliation pass; school signs off the agreed workflows and recovery policy. Provider approval time is external to developer effort.</p>
+<p><strong>Phase D — Communication and assessment, approximately 4–7 developer-weeks.</strong> Richer audience automations, Hindi/English publishing workflows, optional online payments, exam paper review/release, marks and immutable report publication. Exit: audience revocation, delivery reconciliation and historical-report corrections pass acceptance scenarios. Core WhatsApp single/bulk delivery is included in the pilot phase above.</p>
+<p><strong>Phase E — Resources and finance, separately estimated after accountant discovery.</strong> Library/circulation → inventory/assets → procurement → full accounting and cutover. These can ship as separate increments; “full accounting” is not a small extension to receipts. Exit: concurrency tests, receipt/invoice matching, balanced postings, period-close races and accountant-approved reports pass.</p>
+<p><strong>Phase F — Events, then AI, separately estimated.</strong> Private galleries, audience-filtered ZIPs, expiring grants and retention; then reviewed AI drafts with usage caps. Exit: real audience/download/retention scenarios and external-provider data policies are validated.</p>
+<p>Phases A–C imply approximately <strong>10–16 backend developer-weeks before contingency</strong>, rather than a promise of a production pilot in a few weekends. Full scope is a substantially larger programme. A narrow internal trial can happen earlier using synthetic data; live school use needs the relevant release gates.</p>
+<h2 id="plan-16-verification-plan">16. Verification plan</h2>
+<p>Use unit tests for meaningful transition/calculation rules; integration tests against real PostgreSQL for constraints, RLS, transactions and posting; HTTP tests for guards/DTOs; concurrency tests for shared balances/copies; adapter sandbox tests; and a timed restore drill. Run security tests under the actual restricted runtime roles, not a test superuser. Frontend demos and mocked repositories cannot prove these properties.</p>
+<p>Required release scenarios:</p>
+<ol>
+<li>School A cannot read/write School B records through IDs, filters, counts, imports, exports, job status, files or support routes. A composite FK rejects a cross-school child relationship.</li>
+<li>Missing tenant context denies access; pooled connection reuse across alternating schools and rolled-back requests leaks no context. Worker retries obey the same rule.</li>
+<li>A same-school unrelated parent cannot read a child profile, report, fees or gallery. An unassigned teacher cannot read restricted paper/subject records or change attendance.</li>
+<li>Setup/reset token expiry, atomic single-use consumption, restricted temporary-password sessions, membership revocation and support-grant expiry work across concurrent requests.</li>
+<li>Attendance batch replay and competing corrections preserve one current state plus history. Academic-year rollover and section transfers do not erase records or widen historical access.</li>
+<li>A duplicate charge run, payment request, provider event or renewal job produces one economic result. Out-of-order payment/refund events reconcile correctly.</li>
+<li>Competing payment allocations cannot over-allocate; refunds cannot exceed available refundable funds; simultaneous receipt issuance cannot duplicate numbers.</li>
+<li>Unbalanced journal posting, duplicate source posting, closed-period writes and close/post races are rejected. Reversals preserve original evidence.</li>
+<li>Two concurrent loans of one copy yield one successful loan; competing stock issues cannot make on-hand negative. Retried goods receipts do not duplicate stock/copies.</li>
+<li>Editing an approved paper or message invalidates approval; cancelled schedules and revoked guardians are excluded at execution. Corrected reports create a superseding publication.</li>
+<li>A crash after domain commit but before enqueue loses no work. A crash after an external side effect is reconciled or produces an explicit ambiguous state, with no claim of impossible exactly-once delivery.</li>
+<li>Private/unscanned uploads remain inaccessible; package contents match every recipient&#39;s audience. Expired/revoked grants block new URLs; retention cleans only intended objects.</li>
+<li>A fresh environment can restore backups within measured recovery targets; reconcile student counts, latest fee entries, audit evidence and referenced files.</li>
+</ol>
+<p>Load-test the pilot school&#39;s actual dataset size and peak mix: morning attendance submissions, parent dashboard reads, fee queries, exports and one concurrent heavy job. Record p95/p99 latency, error rate, memory, pool waits and queue age; agree acceptance thresholds before launch. No capacity or latency claim is established by this plan.</p>
+<h2 id="plan-17-first-implementation-backlog">17. First implementation backlog</h2>
+<p>Execute these as reviewable vertical slices, each with its migration, service, API contract and relevant verification:</p>
+<ol>
+<li>Bootstrap API/worker, configuration validation, health/readiness, CI, PostgreSQL and version-pinned dependencies.</li>
+<li>Implement restricted database roles, one tenant-scoped table, composite foreign keys and the transaction helper; prove two-school isolation before multiplying tables.</li>
+<li>Implement sessions, setup/reset, membership selection, permission scopes and initial platform-admin MFA.</li>
+<li>Implement immutable commercial terms, idempotent tenant provisioning and first-admin setup with an outbox-backed invitation.</li>
+<li>Implement audit append privileges, inbox/outbox relay, retry/status tools and the first restore rehearsal.</li>
+<li>Implement academic year, section, subject and teacher assignments; seed synthetic school scenarios.</li>
+<li>Implement staged student import, enrolment, placement and verified guardian linking; expose permission-filtered student profiles.</li>
+<li>Implement attendance with revisions and concurrency handling; run a teacher-to-parent end-to-end flow.</li>
+<li>Implement homework audience/submission/feedback, bilingual notice approval, WhatsApp sender/template setup, single/bulk delivery, opt-out, cost classification and callbacks.</li>
+<li>Implement fee schedules, charge runs, manual payments, allocations, receipt/reversal and accountant reconciliation; then perform the pilot release review.</li>
+</ol>
+<p>The first demonstrable backend result should be: <strong>platform admin provisions two schools → school admin sets up their account → assigns a teacher → enrols a student → verifies a guardian → teacher records attendance → that guardian sees the permitted record → the second school cannot access it → the data can be restored.</strong></p>
+<h2 id="plan-18-decisions-to-close-during-implementation-discovery">18. Decisions to close during implementation discovery</h2>
+<p>These are business inputs, not blockers to writing the foundation:</p>
+<ul>
+<li>Pilot school count, student count, simultaneous staff/parent usage, import sources and acceptable downtime/data loss.</li>
+<li>Exact fee rules, receipt series, concessions, advances, refunds, payment merchant/settlement ownership and accountant-approved accounting/report requirements.</li>
+<li>Guardian verification evidence, custody/restriction handling, historical teacher access and parent/student account recovery.</li>
+<li>Subscription suspension/grace/export policy; precise plan limits, setup and maintenance recurrence; who approves support access.</li>
+<li>Message channels/providers and delivery cost limits; media consent/audiences, file limits, retention and export expectations.</li>
+<li>Applicable child-data, consent, tax and contract requirements reviewed against current rules with the relevant qualified advisers before live operation.</li>
+</ul>
+<p>Default implementation can proceed with manual school payment recording, session authentication, WhatsApp sandbox/synthetic callback testing, no live AI, private attachments and synthetic school data while sender onboarding and commercial choices are resolved. Live WhatsApp requires the approved school sender, valid messaging permission, templates where required and a configured budget.</p>
+</main></div></body></html>
