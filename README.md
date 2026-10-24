@@ -6,6 +6,8 @@ Product research, architecture and interactive prototypes for an India-focused, 
 
 ## Start here
 
+- [Authentication and school membership design](previews/school-authentication-design.html) — F02 library decision and security review requirements, recorded before implementation.
+
 - [Implementation plan and ordered acceptance criteria](previews/school-implementation-plan.html) — new design deliverables remain HTML.
 - [Executable backend service](https://github.com/nishantgautamIT/campus-core-api) — Node 24, PostgreSQL and integration checks.
 - [Full database design catalogue](previews/school-database-design.html) — broader roadmap, not an executable release migration.
