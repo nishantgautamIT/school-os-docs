@@ -2,9 +2,11 @@
 
 Product research, architecture and interactive prototypes for an India-focused, multi-tenant school management SaaS with a public website for each school.
 
-**Status:** documentation and browser-local prototypes. The executable backend is maintained separately in [campus-core-api](https://github.com/nishantgautamIT/campus-core-api), a private repository with PostgreSQL migrations, tenant isolation and API health checks. The database foundation is merged; F02 authentication and membership are in progress on a feature branch. School workflows remain planned. Prototype controls do not create real users, send messages, take payments or publish websites.
+**Status:** documentation and browser-local prototypes. The executable backend is maintained separately in [campus-core-api](https://github.com/nishantgautamIT/campus-core-api), a private repository with PostgreSQL migrations, tenant isolation and API health checks. The database foundation is merged. F02 is deferred in an unmerged draft; identity work will move to `tenant-user-service`. F04 school provisioning/public website design is next in `campus-core-api`. Prototype controls do not create real users, send messages, take payments or publish websites.
 
 ## Start here
+
+- [Service ownership and revised sequence](previews/school-service-boundaries.html) — identity in tenant-user-service; business logic in campus-core-api; F04 next.
 
 - [Authentication and school membership design](previews/school-authentication-design.html) — F02 library decision and security review requirements, recorded before implementation.
 
