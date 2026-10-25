@@ -2,9 +2,17 @@
 
 Product research, architecture and interactive prototypes for an India-focused, multi-tenant school management SaaS with a public website for each school.
 
-**Status:** documentation and browser-local prototypes. The executable backend is maintained separately in [campus-core-api](https://github.com/nishantgautamIT/campus-core-api), a private repository with PostgreSQL migrations, tenant isolation and API health checks. Authentication endpoints and school workflows remain planned. Prototype controls do not create real users, send messages, take payments or publish websites.
+**Status:** documentation and browser-local prototypes. The executable backend is maintained separately in [campus-core-api](https://github.com/nishantgautamIT/campus-core-api), a private repository with PostgreSQL migrations, tenant isolation and API health checks. The database foundation is merged. Identity extraction is merged in `tenant-user-service`; F02 product integration remains deferred. F04 core school provisioning is merged; engagement website publication is merged with25 passing local/fresh checks and passing CI. Enquiries, event transport and admin identity integration remain pending. Operations and gateway repositories are scaffolded. Prototype controls do not create real users, send messages, take payments or publish websites.
 
 ## Start here
+
+- [Website publication schema and evidence](previews/school-website-publication.html) — private drafts, transactional five-page release, rollback/unpublish; [engagement PR #1](https://github.com/nishantgautamIT/campus-engagement-api/pull/1).
+
+- [Core provisioning schema and validation](previews/school-core-provisioning.html) — first executable core business slice;20 local/fresh checks.
+
+- [Service ownership and revised sequence](previews/school-service-boundaries.html) — identity plus three business services and a common gateway; core provisioning started.
+
+- [Authentication and school membership design](previews/school-authentication-design.html) — F02 library decision and security review requirements, recorded before implementation.
 
 - [Implementation plan and ordered acceptance criteria](previews/school-implementation-plan.html) — new design deliverables remain HTML.
 - [Executable backend service](https://github.com/nishantgautamIT/campus-core-api) — Node 24, PostgreSQL and integration checks.
@@ -66,4 +74,4 @@ node scripts/check-cost-model.cjs
 
 Research was performed from official sources; no vendor demos, private quotes or school-user study were conducted. Differentiation, prices, infrastructure provisions and delivery timelines are hypotheses or planning assumptions. Recheck time-sensitive provider pricing, terms and child-facing AI eligibility before launch.
 
-The chosen stack is React/Vite/TypeScript, Node/NestJS/Fastify, PostgreSQL, pg-boss workers and private S3 storage. Start as a modular monolith. Operational release evidence must include tenant/guardian/teacher isolation, token expiry/reuse, concurrent stock/library operations, payment idempotency, accounting integrity, public/private media separation and a successful restore drill.
+The chosen stack is React/Vite/TypeScript, Node/NestJS/Fastify, PostgreSQL, pg-boss workers and private S3 storage. Use the approved identity/core/operations/engagement split with a common gateway; keep related domain modules within their service. Operational release evidence must include tenant/guardian/teacher isolation, token expiry/reuse, concurrent stock/library operations, payment idempotency, accounting integrity, public/private media separation and a successful restore drill.
