@@ -2,9 +2,11 @@
 
 Product research, architecture and interactive prototypes for an India-focused, multi-tenant school management SaaS with a public website for each school.
 
-**Status:** documentation and browser-local prototypes. The executable backend is maintained separately in [campus-core-api](https://github.com/nishantgautamIT/campus-core-api), a private repository with PostgreSQL migrations, tenant isolation and API health checks. The database foundation is merged. Identity extraction is merged in `tenant-user-service`; F02 product integration remains deferred. F04 core school provisioning is merged; engagement website publication is merged with25 passing local/fresh checks and passing CI. Automatic core-to-engagement event delivery is merged in core PR#4 and engagement PR#2, with35/37 checks and passing CI. Enquiries and admin identity integration remain pending. Operations and gateway repositories are scaffolded. Prototype controls do not create real users, send messages, take payments or publish websites.
+**Status:** documentation and browser-local prototypes. The executable backend is maintained separately in [campus-core-api](https://github.com/nishantgautamIT/campus-core-api), a private repository with PostgreSQL migrations, tenant isolation and API health checks. The database foundation is merged. Identity extraction is merged in `tenant-user-service`; F02 product integration remains deferred. F04 core school provisioning is merged; engagement website publication is merged with25 passing local/fresh checks and passing CI. Automatic core-to-engagement event delivery is merged in core PR#4 and engagement PR#2, with35/37 checks and passing CI. Enquiries and admin identity integration remain pending. Operations remains scaffolded. The gateway public-read/rate-limit foundation is implemented in an open PR; enquiry routing, shared counters and deployed ingress remain pending. Prototype controls do not create real users, send messages, take payments or publish websites.
 
 ## Start here
+
+- [Public gateway foundation](previews/school-api-gateway.html) — common bounded counters and published-page routing; [gateway PR #1](https://github.com/nishantgautamIT/campus-api-gateway/pull/1).
 
 - [Authenticated core event delivery](previews/school-core-event-delivery.html) — leased delivery, signed private receiver and tested lost-ack retry; transport PRs are merged.
 
