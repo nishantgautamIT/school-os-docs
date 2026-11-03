@@ -1,0 +1,16 @@
+{
+  "name": "school-os-api-docs",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "build:apis": "node scripts/build-api-catalog.mjs",
+    "check:apis": "node scripts/check-api-catalog.mjs && node --test test/api-guard.test.mjs",
+    "check:sources": "node scripts/check-api-catalog.mjs --sources"
+  },
+  "devDependencies": {
+    "@apidevtools/swagger-parser": "13.1.0",
+    "swagger-ui-dist": "5.34.1",
+    "typescript": "5.9.3"
+  }
+}

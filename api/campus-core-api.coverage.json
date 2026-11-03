@@ -1,0 +1,8 @@
+{
+  "description": "Review HTTP schemas, headers, errors and security when these files change. Refresh hashes only after updating/reviewing docs/openapi.json. Native route lists are reviewed, not inferred. Nest routes and automatic Fastify HEAD routes are extracted by the guard.",
+  "nativeFiles": [],
+  "nativeRoutes": [],
+  "sources": {
+    "src/app.ts": "4543c033a9bd61cad484a923868a0afbdbff6ccb54eac067278e4a349768d62b"
+  }
+}

@@ -1,0 +1,1352 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "campus-api-gateway",
+    "version": "0.1.0",
+    "description": "Public gateway: health, published school pages and optional admission enquiries. Identity, student and internal receiver paths are not routed. Routes require exact paths without query strings or trailing slashes. Generic limits apply to all requests; one process with in-memory counters is currently supported. Enquiries are implemented in PR #2, merged 3 November 2026."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8080",
+      "description": "Default local listener; configurable. Not a deployed production URL."
+    }
+  ],
+  "paths": {
+    "/health/live": {
+      "get": {
+        "operationId": "live",
+        "summary": "Gateway live",
+        "tags": [
+          "Health"
+        ],
+        "description": "GET/HEAD must have no body. Readiness checks engagement, not every service.",
+        "responses": {
+          "200": {
+            "description": "Healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "417": {
+            "description": "Expect header unsupported",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited or bounded authentication capacity exhausted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable or busy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "head": {
+        "operationId": "liveHead",
+        "summary": "Gateway live (headers only)",
+        "tags": [
+          "Health"
+        ],
+        "description": "GET/HEAD must have no body. Readiness checks engagement, not every service. HEAD uses GET handling and returns no body.",
+        "responses": {
+          "200": {
+            "description": "Healthy"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "417": {
+            "description": "Expect header unsupported"
+          },
+          "429": {
+            "description": "Rate limited or bounded authentication capacity exhausted",
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable or busy",
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "ready",
+        "summary": "Gateway ready",
+        "tags": [
+          "Health"
+        ],
+        "description": "GET/HEAD must have no body. Readiness checks engagement, not every service.",
+        "responses": {
+          "200": {
+            "description": "Healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    },
+                    "engagement": {
+                      "type": "string",
+                      "enum": [
+                        "available"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "engagement"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "417": {
+            "description": "Expect header unsupported",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited or bounded authentication capacity exhausted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable or busy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "head": {
+        "operationId": "readyHead",
+        "summary": "Gateway ready (headers only)",
+        "tags": [
+          "Health"
+        ],
+        "description": "GET/HEAD must have no body. Readiness checks engagement, not every service. HEAD uses GET handling and returns no body.",
+        "responses": {
+          "200": {
+            "description": "Healthy"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "417": {
+            "description": "Expect header unsupported"
+          },
+          "429": {
+            "description": "Rate limited or bounded authentication capacity exhausted",
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable or busy",
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/schools/{slug}": {
+      "get": {
+        "operationId": "schoolHome",
+        "summary": "Read a published school page",
+        "tags": [
+          "Public website"
+        ],
+        "description": "GET/HEAD only, no body. The gateway forwards public HTML from engagement with Content-Security-Policy; it does not forward user credentials.",
+        "responses": {
+          "200": {
+            "description": "Published HTML",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "417": {
+            "description": "Expect header unsupported",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited or bounded authentication capacity exhausted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Invalid or unavailable upstream",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable or busy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Upstream timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]{2,39}$"
+            },
+            "description": "Published school slug; 3\u201340 lowercase letters/digits/hyphens."
+          }
+        ]
+      },
+      "head": {
+        "operationId": "schoolHomeHead",
+        "summary": "Read a published school page (headers only)",
+        "tags": [
+          "Public website"
+        ],
+        "description": "GET/HEAD only, no body. The gateway forwards public HTML from engagement with Content-Security-Policy; it does not forward user credentials. HEAD uses GET handling and returns no body.",
+        "responses": {
+          "200": {
+            "description": "Published HTML"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "417": {
+            "description": "Expect header unsupported"
+          },
+          "429": {
+            "description": "Rate limited or bounded authentication capacity exhausted",
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Invalid or unavailable upstream"
+          },
+          "503": {
+            "description": "Unavailable or busy",
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Upstream timeout"
+          }
+        },
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]{2,39}$"
+            },
+            "description": "Published school slug; 3\u201340 lowercase letters/digits/hyphens."
+          }
+        ]
+      }
+    },
+    "/schools/{slug}/{page}": {
+      "get": {
+        "operationId": "schoolPage",
+        "summary": "Read a published school page",
+        "tags": [
+          "Public website"
+        ],
+        "description": "GET/HEAD only, no body. The gateway forwards public HTML from engagement with Content-Security-Policy; it does not forward user credentials.",
+        "responses": {
+          "200": {
+            "description": "Published HTML",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "417": {
+            "description": "Expect header unsupported",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited or bounded authentication capacity exhausted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Invalid or unavailable upstream",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable or busy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Upstream timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]{2,39}$"
+            },
+            "description": "Published school slug; 3\u201340 lowercase letters/digits/hyphens."
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "home",
+                "about",
+                "academics",
+                "events",
+                "contact"
+              ]
+            },
+            "description": "Published page key."
+          }
+        ]
+      },
+      "head": {
+        "operationId": "schoolPageHead",
+        "summary": "Read a published school page (headers only)",
+        "tags": [
+          "Public website"
+        ],
+        "description": "GET/HEAD only, no body. The gateway forwards public HTML from engagement with Content-Security-Policy; it does not forward user credentials. HEAD uses GET handling and returns no body.",
+        "responses": {
+          "200": {
+            "description": "Published HTML"
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "405": {
+            "description": "Method not allowed"
+          },
+          "417": {
+            "description": "Expect header unsupported"
+          },
+          "429": {
+            "description": "Rate limited or bounded authentication capacity exhausted",
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Invalid or unavailable upstream"
+          },
+          "503": {
+            "description": "Unavailable or busy",
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Upstream timeout"
+          }
+        },
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]{2,39}$"
+            },
+            "description": "Published school slug; 3\u201340 lowercase letters/digits/hyphens."
+          },
+          {
+            "name": "page",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "home",
+                "about",
+                "academics",
+                "events",
+                "contact"
+              ]
+            },
+            "description": "Published page key."
+          }
+        ]
+      }
+    },
+    "/schools/{slug}/enquiries": {
+      "post": {
+        "operationId": "submitEnquiry",
+        "summary": "Submit an admission enquiry",
+        "tags": [
+          "Admissions"
+        ],
+        "description": "Feature PR #2, merged 3 November 2026. Anonymous public submission with adult declaration and contact consent. Origin must exactly equal PUBLIC_ORIGIN; browser supplies it. Exact application/json; no Content-Encoding or Expect; max 8 KiB and three-second body deadline. Idempotency UUID is lowercased by gateway. Additional submission limits apply. Returns 503 if enquiry routing is not configured. No enquiry reading/listing endpoint is public.",
+        "responses": {
+          "202": {
+            "description": "Accepted, including an exact normalized retry",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "accepted": {
+                      "type": "boolean",
+                      "enum": [
+                        true
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "required": [
+                    "accepted",
+                    "requestId"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Origin, CSRF, or permission denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Resource not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method not allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Body read deadline exceeded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Idempotency key reused with different normalized content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Request exceeds body limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported content type or encoding",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "417": {
+            "description": "Expect header unsupported",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limited or bounded authentication capacity exhausted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Invalid or unavailable upstream",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable or busy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Delay in seconds when supplied by the local limiter/capacity gate; not present on every upstream failure.",
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[0-9]+$"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Upstream timeout",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9][a-z0-9-]{2,39}$"
+            },
+            "description": "Published school slug; 3\u201340 lowercase letters/digits/hyphens."
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "description": "Stable UUID for one submission; same normalized payload returns the same receipt, different payload returns 409. Private receiver expects lowercase."
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Must equal configured PUBLIC_ORIGIN."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "contactName": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 120
+                  },
+                  "phone": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32,
+                    "description": "Indian mobile: 10 digits starting 6\u20139 or +91 prefix; spaces, parentheses and hyphens stripped."
+                  },
+                  "email": {
+                    "type": "string",
+                    "maxLength": 254,
+                    "description": "Optional; empty accepted, otherwise a valid email address, normalized lowercase."
+                  },
+                  "interest": {
+                    "type": "string",
+                    "maxLength": 80
+                  },
+                  "message": {
+                    "type": "string",
+                    "maxLength": 1000,
+                    "description": "Optional text, trimmed with CRLF normalized to LF. Tabs and line breaks accepted; other control characters rejected. Text is stored privately, not rendered as HTML."
+                  },
+                  "contactConsent": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  },
+                  "isAdult": {
+                    "type": "boolean",
+                    "enum": [
+                      true
+                    ]
+                  }
+                },
+                "required": [
+                  "contactName",
+                  "phone",
+                  "contactConsent",
+                  "isAdult"
+                ],
+                "additionalProperties": false,
+                "example": {
+                  "contactName": "Demo Parent",
+                  "phone": "+919876543210",
+                  "interest": "Class 4",
+                  "message": "Please share admission information.",
+                  "contactConsent": true,
+                  "isAdult": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "x-source-repository": "https://github.com/nishantgautamIT/campus-api-gateway",
+  "x-source-revision": "98ffe2ffdab302009947c92d308b1f1c1dfb46d9",
+  "x-source-status": "implemented; enquiries merged 3 November 2026"
+}

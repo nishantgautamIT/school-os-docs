@@ -79,3 +79,9 @@ node scripts/check-cost-model.cjs
 Research was performed from official sources; no vendor demos, private quotes or school-user study were conducted. Differentiation, prices, infrastructure provisions and delivery timelines are hypotheses or planning assumptions. Recheck time-sensitive provider pricing, terms and child-facing AI eligibility before launch.
 
 The chosen stack is React/Vite/TypeScript, Node/NestJS/Fastify, PostgreSQL, pg-boss workers and private S3 storage. Use the approved identity/core/operations/engagement split with a common gateway; keep related domain modules within their service. Operational release evidence must include tenant/guardian/teacher isolation, token expiry/reuse, concurrent stock/library operations, payment idempotency, accounting integrity, public/private media separation and a successful restore drill.
+
+## Swagger API documentation
+
+Open [the offline Swagger catalogue](previews/school-api-swagger.html) for all five services. Machine-readable contracts are in `api/`; each HTTP service owns its contract under `docs/openapi.json`.
+
+With Node 24, run `npm ci`, `npm run build:apis`, and `npm run check:apis`. With the sibling service checkouts available, `npm run check:sources` also verifies route coverage and source fingerprints; `npm run build:apis -- --sync` refreshes snapshots from those services. Keep `previews/api-assets/` alongside the HTML when copying it. The viewer is reference-only and works offline.
