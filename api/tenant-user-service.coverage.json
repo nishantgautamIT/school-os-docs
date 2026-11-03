@@ -1,0 +1,26 @@
+{
+  "description": "Review HTTP schemas, headers, errors and security when these files change. Refresh hashes only after updating/reviewing docs/openapi.json. Native route lists are reviewed, not inferred. Nest routes and automatic Fastify HEAD routes are extracted by the guard.",
+  "nativeFiles": [
+    "src/app.ts",
+    "src/auth/http.ts"
+  ],
+  "nativeRoutes": [],
+  "sources": {
+    "src/app.ts": "7c221e52139e9c9cd58566c84da93b7b4cbd22b79901fc636ea9cd61c60e0b73",
+    "src/auth/http.ts": "87603a50c2d7ecd1c8d3acf453c21cd349bd296cc783432ce07a6c7d3d690d21",
+    "src/auth/settings.ts": "17930acaf22b26036f105dac0a2a8f87682e43821166a8231ae92ee0581de838",
+    "src/auth/service.ts": "8cbdafa1331b8e463fe23c10a5fb7bbd195d2e737f2edbbe16e9093fe7c28e61",
+    "src/auth/crypto.ts": "7f53efe4d55374cb3bae3defc25ddbe09f83890947d9d1ce6ae81e88c49912ab",
+    "src/auth/abuse.ts": "acb30c32a1c154dfdae453767aec2c532c0575a165fb92759bead643f5a67bd1",
+    "src/auth/delivery.ts": "636393d3ce9f27a2a728db0d25865157bbc589418b3b497bd4d6f2bd5a0471cf",
+    "db/migrations/0001_foundation.sql": "bf1bfdaba7c87a5dab864950cb05935e989604276714b6eaa6e5acf46671af27",
+    "db/migrations/0002_auth_membership.sql": "2464e9fcc52b3df321ce80b616c9a8daf40e1c4bdc7d5a6c584e47e4860fbc24",
+    "db/migrations/0003_auth_identity_constraints.sql": "07ae81a6e293f6b7c7328732b4c3926ba1fcd223c08c4f99f3b0b41f03de8fb8",
+    "db/migrations/0004_auth_rls_helper.sql": "357b99e9cb8323093d5c74c9e6deffc799edb1ab102f305d90ed83eae7eaa03d",
+    "db/migrations/0005_auth_readiness.sql": "2f20c4e1bfb2842339f904cb4f5e5a268fc90d67c6553989b1a0a9efb1db2481",
+    "db/migrations/0006_auth_school_lock.sql": "3b2491b3c300ebfb4effaab2e46a4167b62d6a659e27792af15a333cc56db12e",
+    "db/migrations/0007_auth_privilege_lockdown.sql": "0bcdcaa193557b76eb0293b133f6f7d0ab03cf7cf8c06c2a32d5d40d73f9d551",
+    "db/migrations/0008_auth_entrypoint_grants.sql": "a1cb9071f5efcfa3d79dce79e0d1bb74efc546aa3f31b8130757286d52c60bd9",
+    "db/migrations/0009_identity_directory.sql": "753bf8455b46c2fa768bd848007c092ecb0cd5f36f27c11d5cb237521db4d4b3"
+  }
+}

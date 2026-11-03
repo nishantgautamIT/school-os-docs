@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'none'; base-uri 'none'">
+<title>SchoolOS · Swagger API catalogue</title>
+<link rel="stylesheet" href="api-assets/swagger-ui.css">
+<style>
+*{box-sizing:border-box}body{margin:0;color:#1a3046;background:#f4f7fb;font:16px/1.6 system-ui,sans-serif}header{background:#102b40;color:#eef7fc;padding:36px max(24px,calc((100vw - 1200px)/2))}header p{max-width:920px;color:#cadce9}h1{font-size:clamp(25px,4vw,38px);line-height:1.2;margin:10px 0}main{max-width:1248px;margin:auto;padding:24px}.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8ce1d5}.panel{padding:22px;background:white;border:1px solid #dbe4ed;border-radius:12px;margin-bottom:20px}.toolbar{display:flex;gap:16px;align-items:end;flex-wrap:wrap}label{font-weight:700;font-size:14px}select,button{font:inherit;padding:10px 14px;border-radius:7px;border:1px solid #9bafc1;background:white;color:#15324b}select{display:block;margin-top:6px;min-width:260px}button{background:#116b65;color:white;border:0;cursor:pointer}button:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid #db910d;outline-offset:3px}.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}.pill{border-radius:20px;background:#e7f3f1;color:#145b56;padding:5px 12px;font-size:13px}#source{font-size:13px;overflow-wrap:anywhere}a{color:#096f80}code{background:#eef2f7;padding:2px 5px;border-radius:3px;font-size:13px}details summary{font-weight:650;cursor:pointer}li{margin:9px 0}.note{border-left:4px solid #d99820;padding-left:14px}#empty{display:none}#swagger-ui{background:white;border:1px solid #dbe4ed;border-radius:12px;padding:10px}.swagger-ui .wrapper{padding:0 12px}.swagger-ui .info{margin:20px 0}.swagger-ui .scheme-container{box-shadow:none;background:#f3f7fa}.swagger-ui .info .title{font-size:28px}.swagger-ui .opblock .opblock-summary-path{font-size:15px}footer{font-size:13px;color:#50667b;margin:25px 0}p{margin:10px 0}@media(max-width:600px){main{padding:12px}.panel{padding:16px}select{min-width:0;width:100%}.toolbar label{width:100%}}
+</style></head>
+<body>
+<header><span class="eyebrow">SchoolOS engineering / API reference</span><h1>One catalogue. Every implemented HTTP API.</h1><p>Browse the contracts for identity, public websites, admission enquiries, internal delivery, and health checks. Core academic workflows and fees currently run as operator commands.</p></header>
+<main>
+<section class="panel" aria-label="Choose service">
+<div class="toolbar"><label for="service">Service<select id="service"></select></label><button id="download" type="button">Download OpenAPI JSON</button></div>
+<div class="stats"><span class="pill">5 services</span><span class="pill">25 explicit HTTP operations + 16 HEAD variants</span><span class="pill" id="count"></span></div>
+<p id="source"></p><p class="note"><strong>Reference viewer:</strong> API calls are disabled here. Download a contract for Swagger UI or an API client when testing a configured local service. This page works offline with its adjacent <code>api-assets</code> folder; it sends no contracts to a hosted validator.</p>
+</section>
+<details class="panel"><summary>Implementation status and authentication</summary>
+<p>Snapshot: 3 November 2026. The gateway and engagement contracts include admission enquiries from feature PRs <a href="https://github.com/nishantgautamIT/campus-api-gateway/pull/2">gateway #2</a> and <a href="https://github.com/nishantgautamIT/campus-engagement-api/pull/3">engagement #3</a>. These feature PRs were merged on 3 November 2026 after their CI passed. This catalogue does not claim a production deployment.</p>
+<ul><li><strong>Identity:</strong> uses an HttpOnly session cookie. Mutations require the configured Origin, <code>X-Campus-Request: 1</code> and JSON content type. Session mutations also require <code>X-CSRF-Token</code>. A browser cannot spoof its Origin or manually set an HttpOnly cookie. Use the configured app origin and cookie jar for tests. The gateway does not currently route identity endpoints.</li>
+<li><strong>Public gateway:</strong> school pages and optional admission submissions. Enquiries require an idempotency UUID, exact configured Origin, adult declaration and contact consent. Neither private enquiry inbox data nor internal receivers are publicly routed.</li>
+<li><strong>Private receivers:</strong> event delivery uses port 3003; enquiry ingestion uses port 3004. Both require computed HMAC signatures over the exact body bytes, with separate keys. Their operation-level server addresses override the engagement website address.</li>
+<li><strong>Core:</strong> health endpoints only. Academic setup, students, guardians/staff, attendance and other operator commands do not become HTTP APIs merely by being listed here. Lessons/homework remain the next core workflow.</li>
+<li><strong>Operations:</strong> fee commands are in progress; there is no implemented HTTP server. Its OpenAPI <code>paths</code> is intentionally empty.</li></ul>
+</details>
+<details class="panel"><summary>Keeping future APIs documented</summary>
+<ol><li>Update the service's <code>docs/openapi.json</code> in the same PR as any HTTP change, including request/response schemas, errors, auth, and retry behavior.</li>
+<li>Run <code>node --test test/openapi.test.mjs</code>. The four HTTP services also run it through their existing test/check commands. Nest routes are extracted from TypeScript decorators. Native Node listeners have reviewed route manifests and source fingerprints.</li>
+<li>When a fingerprint changes, review the contract and update <code>docs/api-coverage.json</code>. A fingerprint forces a review; it does not automatically infer business semantics. Add newly introduced HTTP validation/security dependencies to the source manifest.</li>
+<li>From school-os-docs with sibling checkouts, run <code>npm ci</code>, <code>npm run build:apis -- --sync</code>, <code>npm run check:sources</code> and <code>npm run check:apis</code>. Commit the updated catalogue. The checker detects missing/stale operations, unclassified native listeners and changed reviewed source.</li>
+<li>When operations introduces an HTTP listener, copy the guard/test pattern into that service and add its real routes before publishing. Its current uncommitted operator scaffold is not modified by this documentation change; central source checks confirm it has no HTTP endpoints.</li></ol>
+<p>The contracts are reviewed documentation, not automatic runtime request validators. Re-run API behavior tests after changing implementation; this guard complements those tests.</p>
+</details>
+<div id="empty" class="panel" role="status">This service has no HTTP endpoints yet. Its downloadable contract contains an empty paths object.</div>
+<div id="swagger-ui"></div>
+<footer>OpenAPI 3.0.3 · Bundled Swagger UI 5.34.1 · <a href="api-assets/LICENSE">License</a> · <a href="api-assets/NOTICE">Notice</a> · <a href="https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/">Swagger UI configuration reference</a></footer>
+</main>
+<script id="contracts" type="application/json">/*API_CONTRACTS*/</script>
+<script src="api-assets/swagger-ui-bundle.js"></script>
+<script>
+const contracts=JSON.parse(document.getElementById('contracts').textContent),select=document.getElementById('service');
+for(const name of Object.keys(contracts)){const option=document.createElement('option');option.value=name;option.textContent=name;select.append(option)}
+const requested=new URLSearchParams(location.search).get('service');if(contracts[requested])select.value=requested;
+function show(){const spec=contracts[select.value],count=Object.values(spec.paths).reduce((n,item)=>n+Object.keys(item).filter(k=>['get','head','post','put','patch','delete','options','trace'].includes(k)).length,0);document.getElementById('count').textContent=count+' operations in this service';document.getElementById('source').textContent='Source: '+spec['x-source-repository']+' · revision '+spec['x-source-revision'].slice(0,12)+' · '+spec['x-source-status'];document.getElementById('empty').style.display=count?'none':'block';SwaggerUIBundle({spec,dom_id:'#swagger-ui',deepLinking:true,filter:true,displayOperationId:true,defaultModelsExpandDepth:1,docExpansion:'list',supportedSubmitMethods:[],validatorUrl:null,persistAuthorization:false,queryConfigEnabled:false});}
+select.addEventListener('change',()=>{location.hash='';show()});document.getElementById('download').addEventListener('click',()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(contracts[select.value],null,2)+'\n'],{type:'application/json'})),a=document.createElement('a');a.href=url;a.download=select.value+'.openapi.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});show();
+</script>
+</body></html>

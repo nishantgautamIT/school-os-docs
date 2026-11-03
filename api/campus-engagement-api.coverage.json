@@ -1,0 +1,22 @@
+{
+  "description": "Review HTTP schemas, headers, errors and security when these files change. Refresh hashes only after updating/reviewing docs/openapi.json. Native route lists are reviewed, not inferred. Nest routes and automatic Fastify HEAD routes are extracted by the guard.",
+  "nativeFiles": [
+    "src/events/receiver.ts",
+    "src/enquiries/receiver.ts",
+    "src/app.ts"
+  ],
+  "nativeRoutes": [
+    "POST /internal/core-events",
+    "POST /internal/enquiries/{slug}"
+  ],
+  "sources": {
+    "src/app.ts": "e76ed225e22c3255beae1d5d4dd22eb46887ecd70246395728c7701847c2cd30",
+    "src/sites/content.ts": "5be3e07b6fdaa82dc00e60ebb29dd45b11625e05f4b8fdd464c773a84bdbc693",
+    "src/events/receiver.ts": "a5c71b2254229d223b5506ede7c4824ce1b63a39117e1fddc86351c29af64e1e",
+    "src/events/protocol.ts": "25f0e2d3ad927bf2a30958059aa9550053dc24879ce1c8aa5bdb8173c5edd234",
+    "src/enquiries/receiver.ts": "2191dfb83c4eb93b943ba7e7c06d21279aec1d4b2c07e58cc43161da513aae20",
+    "src/enquiries/protocol.ts": "e03699fe1909b39eb0f702a0ba4a5a06735b1ed5bbd9ad62dced3f339c0c1d76",
+    "src/enquiries/body.ts": "c720b6e384f86edb5af985748bbee4497786a2c9902eb1e788617963552d4292",
+    "src/enquiries/service.ts": "1f18ba86cb5b28107bbd655266c87513433fb4483786e68e0cf7b7b0abe9802b"
+  }
+}

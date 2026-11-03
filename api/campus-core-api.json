@@ -1,0 +1,150 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "campus-core-api",
+    "version": "0.1.0",
+    "description": "Implemented HTTP surface: health only. School provisioning, academic setup/lifecycle, students/imports, guardian/staff relationships and attendance are restricted operator CLI workflows. Lessons/homework are next planned core work, not existing HTTP endpoints. Identity integration (F02) remains deferred; no invented student or attendance REST routes. HEAD mirrors GET."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:3000",
+      "description": "Default local listener; configurable. Not a deployed production URL."
+    }
+  ],
+  "paths": {
+    "/health/live": {
+      "get": {
+        "operationId": "live",
+        "summary": "Liveness",
+        "tags": [
+          "Health"
+        ],
+        "description": "Unauthenticated local service health check.",
+        "responses": {
+          "200": {
+            "description": "Healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "head": {
+        "operationId": "liveHead",
+        "summary": "Liveness (headers only)",
+        "tags": [
+          "Health"
+        ],
+        "description": "Unauthenticated local service health check. HEAD uses GET handling and returns no body.",
+        "responses": {
+          "200": {
+            "description": "Healthy"
+          }
+        },
+        "security": []
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "operationId": "ready",
+        "summary": "Database/schema readiness",
+        "tags": [
+          "Health"
+        ],
+        "description": "Unauthenticated local service health check.",
+        "responses": {
+          "200": {
+            "description": "Healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    },
+                    "database": {
+                      "type": "string",
+                      "enum": [
+                        "available"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "database"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Unavailable or busy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer"
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "statusCode",
+                    "message"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      },
+      "head": {
+        "operationId": "readyHead",
+        "summary": "Database/schema readiness (headers only)",
+        "tags": [
+          "Health"
+        ],
+        "description": "Unauthenticated local service health check. HEAD uses GET handling and returns no body.",
+        "responses": {
+          "200": {
+            "description": "Healthy"
+          },
+          "503": {
+            "description": "Unavailable or busy"
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "x-source-repository": "https://github.com/nishantgautamIT/campus-core-api",
+  "x-source-revision": "79089d590c2220aa9f4de82fb19978d97514ffb3",
+  "x-source-status": "implemented on main before documentation changes"
+}

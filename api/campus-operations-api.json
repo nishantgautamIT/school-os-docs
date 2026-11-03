@@ -1,0 +1,12 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "campus-operations-api",
+    "version": "0.1.0",
+    "description": "No HTTP listener or API routes currently implemented. Fee assessment is an in-progress operator CLI workflow in a local uncommitted branch. This empty contract intentionally does not invent /fees or health routes. Add implemented HTTP operations when a listener is introduced."
+  },
+  "paths": {},
+  "x-source-repository": "https://github.com/nishantgautamIT/campus-operations-api",
+  "x-source-revision": "3c93d4aeb61b69a9bdd04387c6c88cdce7afd63d",
+  "x-source-status": "uncommitted operator scaffold; no HTTP"
+}
