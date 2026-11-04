@@ -3,7 +3,7 @@
   "info": {
     "title": "campus-core-api",
     "version": "0.1.0",
-    "description": "Implemented HTTP surface: health only. School provisioning, academic setup/lifecycle, students/imports, guardian/staff relationships and attendance are restricted operator CLI workflows. Lessons/homework are implemented as operator commands on the next feature branch, pending merge; they are not HTTP endpoints. Identity integration (F02) remains deferred; no invented student or attendance REST routes. HEAD mirrors GET."
+    "description": "Implemented HTTP surface: health only. School provisioning, academic setup/lifecycle, students/imports, guardian/staff relationships, attendance and lessons/homework are restricted operator CLI workflows. Homework submission evidence and versioned teacher reviews are also operator commands; they add no HTTP endpoints. Identity integration (F02) remains deferred. HEAD mirrors GET."
   },
   "servers": [
     {
