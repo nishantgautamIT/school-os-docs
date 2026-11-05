@@ -9,8 +9,9 @@
   "sources": {
     "src/app.ts": "4543c033a9bd61cad484a923868a0afbdbff6ccb54eac067278e4a349768d62b",
     "src/identity/transport.ts": "3617989569997cb82940658098e4daee829549fe94f5bdb02e86192b446b3b32",
-    "src/identity/client.ts": "5f04a7f12968ecfacc3e0c72fdbb6e0156f82249181838374b055cff629e78cd",
+    "src/identity/client.ts": "68009eb22d4078ecd731c150f986b4c1d494e8a5e9b90f8fbb5ec29af1fb82aa",
     "src/identity/school-api.ts": "846113b1c549d3a8cad92380e073fefd09e06e45da8554182274358fcfa75d6a",
-    "src/identity/main.ts": "7ec1487c88a5bb850f2f2cafbd7c047f8d408ebb76438edc3348a7964eeb247e"
+    "src/identity/main.ts": "7ec1487c88a5bb850f2f2cafbd7c047f8d408ebb76438edc3348a7964eeb247e",
+    "src/identity/membership-proof.ts": "67df23d495effcf7e6e1fd4477cab10edcdb65d67ae45f5d231f8b7a713fdfe9"
   }
 }
