@@ -2580,6 +2580,240 @@
           }
         }
       }
+    },
+    "/internal/v1/memberships/attest": {
+      "post": {
+        "operationId": "attestCorePersonMembership",
+        "summary": "Attest an active account for an operator-assigned person binding",
+        "description": "Private mTLS listener only; exact trusted caller URI SAN spiffe://campus/campus-core-api required. This is a service-to-service account lifecycle check, not user authorization or proof of a real-world person match. A trusted core operator chooses the school person record. Fixed purpose core.person-binding.v1; no sessions, role/permission grants or personal details are accepted/returned. Active user, membership and school are required. Proof expires within 5 seconds and must match the outstanding request, school and membership. Unknown/cross-school/inactive accounts return the same claim-free inactive response. Database errors return 503. No caching/retries. Standard security array is empty only because OpenAPI 3.0 cannot express mTLS; access is NOT anonymous.",
+        "tags": [
+          "Internal identity"
+        ],
+        "servers": [
+          {
+            "url": "https://127.0.0.1:3441",
+            "description": "Optional private mTLS listener; certificate/private CA configuration required."
+          }
+        ],
+        "security": [],
+        "x-mtls-required": true,
+        "x-client-uri-san": "spiffe://campus/campus-core-api",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "contractVersion",
+                  "requestId",
+                  "audience",
+                  "purpose",
+                  "requestedTenantId",
+                  "membershipId"
+                ],
+                "properties": {
+                  "contractVersion": {
+                    "type": "integer",
+                    "enum": [
+                      1
+                    ]
+                  },
+                  "requestId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "audience": {
+                    "type": "string",
+                    "enum": [
+                      "campus-core-api"
+                    ]
+                  },
+                  "purpose": {
+                    "type": "string",
+                    "enum": [
+                      "core.person-binding.v1"
+                    ]
+                  },
+                  "requestedTenantId": {
+                    "type": "string",
+                    "format": "uuid"
+                  },
+                  "membershipId": {
+                    "type": "string",
+                    "format": "uuid"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "No-store fresh account attestation, or claim-free inactive result. Does not grant resource access.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "contractVersion",
+                        "issuer",
+                        "audience",
+                        "purpose",
+                        "requestId",
+                        "active",
+                        "attestationId",
+                        "tenantId",
+                        "membershipId",
+                        "userId",
+                        "securityVersion",
+                        "permissionVersion",
+                        "checkedAt",
+                        "expiresAt"
+                      ],
+                      "properties": {
+                        "contractVersion": {
+                          "type": "integer",
+                          "enum": [
+                            1
+                          ]
+                        },
+                        "issuer": {
+                          "type": "string",
+                          "enum": [
+                            "tenant-user-service"
+                          ]
+                        },
+                        "audience": {
+                          "type": "string",
+                          "enum": [
+                            "campus-core-api"
+                          ]
+                        },
+                        "purpose": {
+                          "type": "string",
+                          "enum": [
+                            "core.person-binding.v1"
+                          ]
+                        },
+                        "requestId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "active": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "attestationId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "tenantId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "membershipId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "securityVersion": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "permissionVersion": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "checkedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "expiresAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "contractVersion",
+                        "issuer",
+                        "audience",
+                        "purpose",
+                        "requestId",
+                        "active"
+                      ],
+                      "properties": {
+                        "contractVersion": {
+                          "type": "integer",
+                          "enum": [
+                            1
+                          ]
+                        },
+                        "issuer": {
+                          "type": "string",
+                          "enum": [
+                            "tenant-user-service"
+                          ]
+                        },
+                        "audience": {
+                          "type": "string",
+                          "enum": [
+                            "campus-core-api"
+                          ]
+                        },
+                        "purpose": {
+                          "type": "string",
+                          "enum": [
+                            "core.person-binding.v1"
+                          ]
+                        },
+                        "requestId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "active": {
+                          "type": "boolean",
+                          "enum": [
+                            false
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Malformed/ambiguous request; body must be exact JSON, no forwarding/identity headers."
+          },
+          "403": {
+            "description": "Trusted TLS caller, audience or purpose denied."
+          },
+          "404": {
+            "description": "Unsupported method/path or requested on the public listener."
+          },
+          "413": {
+            "description": "Body exceeds 8192 bytes."
+          },
+          "503": {
+            "description": "Database/deadline/concurrency unavailable; fail closed."
+          }
+        }
+      }
     }
   },
   "components": {
