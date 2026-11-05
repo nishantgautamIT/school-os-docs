@@ -3,7 +3,7 @@
   "info": {
     "title": "campus-core-api",
     "version": "0.1.0",
-    "description": "Implemented HTTP surface: health only. School provisioning, academic setup/lifecycle, students/imports, guardian/staff relationships, attendance and lessons/homework are restricted operator CLI workflows. Homework submission evidence, versioned teacher reviews and absence catch-up packs are also operator commands; they add no HTTP endpoints. Identity integration (F02) remains deferred. HEAD mirrors GET."
+    "description": "Implemented HTTP surface: health only. School provisioning, academic setup/lifecycle, students/imports, guardian/staff relationships, attendance and lessons/homework are restricted operator CLI workflows. Homework submission evidence, versioned teacher reviews and absence catch-up packs are also operator commands; they add no HTTP endpoints. Identity integration (F02) remains deferred. HEAD mirrors GET. Optional private mTLS listener exposes one identity-authorized school-profile read. The public listener still serves health only; domain operator commands are not HTTP routes."
   },
   "servers": [
     {
@@ -142,9 +142,112 @@
         },
         "security": []
       }
+    },
+    "/v1/schools/{tenantId}": {
+      "get": {
+        "operationId": "getAuthenticatedSchoolProfile",
+        "summary": "Read the selected active school profile",
+        "description": "Private TLS 1.3 listener only; caller certificate must contain exact URI SAN spiffe://campus/campus-api-gateway. Forward exactly one __Host-campus_session cookie. Online identity requires matching selected tenant and school.read; core then checks active/linked school and applies transaction-local tenant RLS. No names of individuals or learning content. Successful access audit commits before response. Every request is rechecked; no cached authorization or fallback. Already admitted work may finish after identity revocation. No teacher/guardian relationship access or mutation is granted. No HEAD alias. Gateway routing is not enabled by this change.",
+        "tags": [
+          "Schools"
+        ],
+        "servers": [
+          {
+            "url": "https://127.0.0.1:3442",
+            "description": "Optional private mTLS listener; not publicly routed."
+          }
+        ],
+        "security": [
+          {
+            "CampusSession": []
+          }
+        ],
+        "x-mtls-required": true,
+        "x-client-uri-san": "spiffe://campus/campus-api-gateway",
+        "parameters": [
+          {
+            "name": "tenantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "No-store school profile; audited access.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "id",
+                    "code",
+                    "name",
+                    "status",
+                    "timezone"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "active"
+                      ]
+                    },
+                    "timezone": {
+                      "type": "string",
+                      "enum": [
+                        "Asia/Kolkata"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Ambiguous/forged headers, Authorization header or request body denied."
+          },
+          "401": {
+            "description": "Missing, invalid, expired, revoked or stale session."
+          },
+          "403": {
+            "description": "Caller certificate identity, selected tenant or school.read denied."
+          },
+          "404": {
+            "description": "School absent/inactive/unlinked, unsupported method/path, or public listener."
+          },
+          "503": {
+            "description": "Identity/TLS/database/contract/deadline failure or expired decision; fail closed."
+          }
+        }
+      }
     }
   },
   "x-source-repository": "https://github.com/nishantgautamIT/campus-core-api",
-  "x-source-revision": "79089d590c2220aa9f4de82fb19978d97514ffb3",
-  "x-source-status": "implemented on main before documentation changes"
+  "x-source-revision": "d43f40785a3c6e1139f1c218a9542b015e997772",
+  "x-source-status": "F02 private identity/core integration implemented on feat/identity-core-trust; gateway routing and production deployment remain outstanding",
+  "components": {
+    "securitySchemes": {
+      "CampusSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-campus_session",
+        "description": "Opaque identity browser session forwarded by the authenticated gateway. Mandatory mTLS gateway transport is separately expressed by x-mtls-required (OpenAPI 3.0 limitation)."
+      }
+    }
+  }
 }

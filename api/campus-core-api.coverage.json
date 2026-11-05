@@ -1,8 +1,16 @@
 {
   "description": "Review HTTP schemas, headers, errors and security when these files change. Refresh hashes only after updating/reviewing docs/openapi.json. Native route lists are reviewed, not inferred. Nest routes and automatic Fastify HEAD routes are extracted by the guard.",
-  "nativeFiles": [],
-  "nativeRoutes": [],
+  "nativeFiles": [
+    "src/identity/transport.ts"
+  ],
+  "nativeRoutes": [
+    "GET /v1/schools/{tenantId}"
+  ],
   "sources": {
-    "src/app.ts": "4543c033a9bd61cad484a923868a0afbdbff6ccb54eac067278e4a349768d62b"
+    "src/app.ts": "4543c033a9bd61cad484a923868a0afbdbff6ccb54eac067278e4a349768d62b",
+    "src/identity/transport.ts": "3617989569997cb82940658098e4daee829549fe94f5bdb02e86192b446b3b32",
+    "src/identity/client.ts": "5f04a7f12968ecfacc3e0c72fdbb6e0156f82249181838374b055cff629e78cd",
+    "src/identity/school-api.ts": "846113b1c549d3a8cad92380e073fefd09e06e45da8554182274358fcfa75d6a",
+    "src/identity/main.ts": "7ec1487c88a5bb850f2f2cafbd7c047f8d408ebb76438edc3348a7964eeb247e"
   }
 }
