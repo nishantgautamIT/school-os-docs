@@ -238,7 +238,7 @@
     }
   },
   "x-source-repository": "https://github.com/nishantgautamIT/campus-core-api",
-  "x-source-revision": "6446854d7c3624820689e496525b62b0b004e09d",
+  "x-source-revision": "d43f40785a3c6e1139f1c218a9542b015e997772",
   "x-source-status": "F02 private identity/core integration implemented on feat/identity-core-trust; gateway routing and production deployment remain outstanding",
   "components": {
     "securitySchemes": {

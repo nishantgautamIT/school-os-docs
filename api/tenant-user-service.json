@@ -2599,6 +2599,6 @@
     }
   },
   "x-source-repository": "https://github.com/nishantgautamIT/tenant-user-service",
-  "x-source-revision": "06ca2c6cbf90e33e27d666997255c4d6c74cbfbc",
+  "x-source-revision": "3b220b0d7cfd9db140858df68579e482a41cc2b8",
   "x-source-status": "F02 private identity/core integration implemented on feat/identity-core-trust; gateway routing and production deployment remain outstanding"
 }
