@@ -12,15 +12,18 @@
     "HEAD /schools/{slug}",
     "GET /schools/{slug}/{page}",
     "HEAD /schools/{slug}/{page}",
-    "POST /schools/{slug}/enquiries"
+    "POST /schools/{slug}/enquiries",
+    "GET /api/schools/{tenantId}"
   ],
   "sources": {
-    "src/gateway.ts": "f57e74b30d1668948f19f84efa7b9a7b9afadf7a34d1b2ce025cd322c0fef61e",
-    "src/config.ts": "4181bb5ab6d7c59145b3eb14ee372e094069fa69361002c5b37ada02ae9d5ebe",
+    "src/gateway.ts": "4ca7890d16e7e0ce4000852576c70443125b0957499043db449c86fdf23e2879",
+    "src/config.ts": "9caf0e2f96962a504cfbfedc99c6c219246903f455968b3e69782767613cff23",
     "src/upstream.ts": "06f77285668b588aebc2138691fc9e4f64745815a5ebc8ec84ade94af9da0a40",
     "src/limiter.ts": "eab47752e9164108af8e8657ea1fe24013128c277730307edef045810afce240",
     "src/enquiries/client.ts": "cbd46efa307f5bb7da8f336f16811310be0fc1499821e5723887ccbfd6741b21",
     "src/enquiries/body.ts": "824aa5879d2901dfb8400eec2aa198af78d5d0c1842bbfadee262c17b556ee09",
-    "src/enquiries/protocol.ts": "e03699fe1909b39eb0f702a0ba4a5a06735b1ed5bbd9ad62dced3f339c0c1d76"
+    "src/enquiries/protocol.ts": "e03699fe1909b39eb0f702a0ba4a5a06735b1ed5bbd9ad62dced3f339c0c1d76",
+    "src/core/client.ts": "afc89e5693c27c2a46ca283b3eb8a59a97a2237f14c1ec7c58d4d8cbc45e81d5",
+    "src/core/service-identity.ts": "7c45bf0a96f13c9bcd42b9aaf90f413adaff36f6b9403c0a943b9f4eab724ebb"
   }
 }
