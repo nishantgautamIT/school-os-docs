@@ -5,18 +5,23 @@
   ],
   "nativeRoutes": [
     "GET /v1/schools/{tenantId}",
-    "GET /v1/schools/{tenantId}/teaching-assignments/{assignmentId}/review-queue"
+    "GET /v1/schools/{tenantId}/teaching-assignments/{assignmentId}/review-queue",
+    "GET /v1/schools/{tenantId}/enrolments/{enrolmentId}/progress"
   ],
   "sources": {
     "src/app.ts": "4543c033a9bd61cad484a923868a0afbdbff6ccb54eac067278e4a349768d62b",
     "src/identity/transport.ts": "3617989569997cb82940658098e4daee829549fe94f5bdb02e86192b446b3b32",
-    "src/identity/client.ts": "0627b882a18af556a6f5ebc943045102c3369457fefdec1d4994e60ecfbb4dce",
-    "src/identity/school-api.ts": "11f4b090495cf2ee03c09ba41f39ab301138c09b67e806f12a3441415d787897",
+    "src/identity/client.ts": "f33c12a21118069c8b52ce7c39b24bd8e94c850cee21a4f09eacc5e90cfcca67",
+    "src/identity/school-api.ts": "e2394a6695d96173335fb4463c5b70f82a42c33e98f7a859dbaa5b47af196c2e",
     "src/identity/main.ts": "7ec1487c88a5bb850f2f2cafbd7c047f8d408ebb76438edc3348a7964eeb247e",
     "src/identity/membership-proof.ts": "67df23d495effcf7e6e1fd4477cab10edcdb65d67ae45f5d231f8b7a713fdfe9",
     "src/learning/teacher-api.ts": "d0c426ea43a083b40327b1e6f97749573041882fce7001b35bf5fccac371e5ef",
     "src/learning/teacher-route.ts": "f137a022805c0d152d3c227ec8bb2cc5d9c0843e27121e01862f2f91d7ba37b1",
     "src/learning/review-queue.ts": "812ce377569339327db9e133e6557505830abc6701cca5aebef216eaf9f8be2e",
-    "db/migrations/0014_authenticated_teacher_queue.sql": "61c364df2be4ccc512598b5e209344291845a6278b36a5a5faa00c07013a3be8"
+    "db/migrations/0014_authenticated_teacher_queue.sql": "61c364df2be4ccc512598b5e209344291845a6278b36a5a5faa00c07013a3be8",
+    "src/learning/guardian-api.ts": "84a2dfc3b7c1c23b882a593399528835fd3b185b32a3296704604c67436b8f79",
+    "src/learning/guardian-route.ts": "966b3f8576f73d07ae6746394d092e493546b0bc12d4e2131aedaf2eea0e33c9",
+    "src/learning/progress.ts": "3407d7ba1f8e2940619086b1353164769d4372614b29181135f74c1a8c2fe55f",
+    "db/migrations/0015_authenticated_guardian_progress.sql": "45aadc1fd36919c57ca5455bc5aee88df71581040235a03aa4abd433653633fe"
   }
 }
