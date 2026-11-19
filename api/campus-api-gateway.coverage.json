@@ -14,18 +14,20 @@
     "HEAD /schools/{slug}/{page}",
     "POST /schools/{slug}/enquiries",
     "GET /api/schools/{tenantId}",
-    "GET /api/schools/{tenantId}/teaching-assignments/{assignmentId}/review-queue"
+    "GET /api/schools/{tenantId}/teaching-assignments/{assignmentId}/review-queue",
+    "GET /api/schools/{tenantId}/enrolments/{enrolmentId}/progress"
   ],
   "sources": {
-    "src/gateway.ts": "0e3387fa2c457c19d87d89f1680601c9a1c15c9e58240229afd7c60bf3e87078",
+    "src/gateway.ts": "e006c7f3c2051f073c580b3b731567653657feb63b9ee5a3bc78cce6cb298e3a",
     "src/config.ts": "9caf0e2f96962a504cfbfedc99c6c219246903f455968b3e69782767613cff23",
     "src/upstream.ts": "06f77285668b588aebc2138691fc9e4f64745815a5ebc8ec84ade94af9da0a40",
     "src/limiter.ts": "eab47752e9164108af8e8657ea1fe24013128c277730307edef045810afce240",
     "src/enquiries/client.ts": "cbd46efa307f5bb7da8f336f16811310be0fc1499821e5723887ccbfd6741b21",
     "src/enquiries/body.ts": "824aa5879d2901dfb8400eec2aa198af78d5d0c1842bbfadee262c17b556ee09",
     "src/enquiries/protocol.ts": "e03699fe1909b39eb0f702a0ba4a5a06735b1ed5bbd9ad62dced3f339c0c1d76",
-    "src/core/client.ts": "8cd219f18917cf1c68d59ad81f5bb2cc04783cc706da004fbe82a39c2a768829",
+    "src/core/client.ts": "715caff95c40502c01f947d2c2febfd2a805a8ee8173d791ac3af65c8e3b8c2c",
     "src/core/service-identity.ts": "7c45bf0a96f13c9bcd42b9aaf90f413adaff36f6b9403c0a943b9f4eab724ebb",
-    "src/core/teacher-queue.ts": "8894aa46b592bad081524bfe92cd93e78dd9c50afb1cf503fa75251680d49c84"
+    "src/core/teacher-queue.ts": "8894aa46b592bad081524bfe92cd93e78dd9c50afb1cf503fa75251680d49c84",
+    "src/core/guardian-progress.ts": "ac8445aedf6cc911f93daa5469c36d88c50d1a893d222c74e37348be19f4fa7b"
   }
 }

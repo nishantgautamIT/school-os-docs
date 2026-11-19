@@ -2243,7 +2243,7 @@
       "post": {
         "operationId": "introspectCoreSchoolRead",
         "summary": "Authorize a supported read-only core action",
-        "description": "Private listener only. Mandatory TLS 1.3 with a trusted client certificate containing exact URI SAN spiffe://campus/campus-core-api; no HTTP header substitutes for the certificate. Fixed profiles: core.school-profile.read.v1 / school.read and core.teacher-review-queue.read.v1 / learning.review_queue_read. The latter grants an action only; core must separately check the current staff/account binding and assignment scope. No role automatically receives the teacher permission. Check every request online; no cache/retry/redirect. Read-only profile requires null csrfToken/origin. Decisions expire within 5 seconds and session expiry; they are usable only for the matching outstanding request. Database failures return 503, not inactive. Unsupported profiles return 403. Public listener returns 404. The empty standard security array reflects the OpenAPI 3.0 mTLS limitation, NOT anonymous access.",
+        "description": "Private listener only. Mandatory TLS 1.3 with a trusted client certificate containing exact URI SAN spiffe://campus/campus-core-api; no HTTP header substitutes for the certificate. Fixed profiles: core.school-profile.read.v1 / school.read and core.teacher-review-queue.read.v1 / learning.review_queue_read. The latter grants an action only; core must separately check the current staff/account binding and assignment scope. No role automatically receives the teacher permission. Check every request online; no cache/retry/redirect. Read-only profile requires null csrfToken/origin. Decisions expire within 5 seconds and session expiry; they are usable only for the matching outstanding request. Database failures return 503, not inactive. Unsupported profiles return 403. Public listener returns 404. The empty standard security array reflects the OpenAPI 3.0 mTLS limitation, NOT anonymous access. The third fixed pair is core.guardian-progress.read.v1 / learning.guardian_progress_read. Core must separately verify current guardian/account and guardian/student relationships and resource lifecycle. No role automatically receives the guardian permission, and neither school.read nor teacher-review permission substitutes for it.",
         "tags": [
           "Internal identity"
         ],
@@ -2294,7 +2294,8 @@
                     "type": "string",
                     "enum": [
                       "core.school-profile.read.v1",
-                      "core.teacher-review-queue.read.v1"
+                      "core.teacher-review-queue.read.v1",
+                      "core.guardian-progress.read.v1"
                     ]
                   },
                   "requestedTenantId": {
@@ -2484,7 +2485,8 @@
                           "type": "string",
                           "enum": [
                             "core.school-profile.read.v1",
-                            "core.teacher-review-queue.read.v1"
+                            "core.teacher-review-queue.read.v1",
+                            "core.guardian-progress.read.v1"
                           ]
                         },
                         "requestId": {
@@ -2540,7 +2542,8 @@
                           "type": "string",
                           "enum": [
                             "core.school-profile.read.v1",
-                            "core.teacher-review-queue.read.v1"
+                            "core.teacher-review-queue.read.v1",
+                            "core.guardian-progress.read.v1"
                           ]
                         },
                         "requestId": {
@@ -2658,6 +2661,123 @@
                           "type": "string",
                           "enum": [
                             "learning.review_queue_read"
+                          ]
+                        },
+                        "checkedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "decisionExpiresAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "sessionExpiresAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "idleExpiresAt": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "contractVersion",
+                        "issuer",
+                        "audience",
+                        "routeProfile",
+                        "requestId",
+                        "active",
+                        "allowed",
+                        "decisionId",
+                        "userId",
+                        "tenantId",
+                        "membershipId",
+                        "sessionId",
+                        "securityVersion",
+                        "permissionVersion",
+                        "grantedAction",
+                        "checkedAt",
+                        "decisionExpiresAt",
+                        "sessionExpiresAt",
+                        "idleExpiresAt"
+                      ],
+                      "properties": {
+                        "contractVersion": {
+                          "type": "integer",
+                          "enum": [
+                            1
+                          ]
+                        },
+                        "issuer": {
+                          "type": "string",
+                          "enum": [
+                            "tenant-user-service"
+                          ]
+                        },
+                        "audience": {
+                          "type": "string",
+                          "enum": [
+                            "campus-core-api"
+                          ]
+                        },
+                        "routeProfile": {
+                          "type": "string",
+                          "enum": [
+                            "core.guardian-progress.read.v1"
+                          ]
+                        },
+                        "requestId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "active": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "allowed": {
+                          "type": "boolean",
+                          "enum": [
+                            true
+                          ]
+                        },
+                        "decisionId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "userId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "tenantId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "membershipId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "sessionId": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "securityVersion": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "permissionVersion": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "grantedAction": {
+                          "type": "string",
+                          "enum": [
+                            "learning.guardian_progress_read"
                           ]
                         },
                         "checkedAt": {
